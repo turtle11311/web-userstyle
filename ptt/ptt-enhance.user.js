@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PTT 閱讀增強
 // @namespace    ptt-reader-theme
-// @version      1.1.1
+// @version      1.2.0
 // @homepageURL  https://github.com/turtle11311/web-userstyle
 // @supportURL   https://github.com/turtle11311/web-userstyle/issues
 // @updateURL    https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-enhance.user.js
@@ -84,10 +84,87 @@
     });
   };
 
+  // ═════════════ 看板清單頁（熱門看板 /bbs/hotboards.html、分類看板 /cls/*） ═════════════
+
+  const enhanceBoards = (list) => {
+    const ents = [...list.querySelectorAll('.b-ent')];
+    const isHot = /\/hotboards\.html$/.test(location.pathname);
+
+    ents.forEach((ent, i) => {
+      const a = ent.querySelector('a.board');
+      if (!a) return;
+      const nameEl = ent.querySelector('.board-name');
+      const classEl = ent.querySelector('.board-class');
+      const titleEl = ent.querySelector('.board-title');
+      const name = nameEl?.textContent.trim() || '';
+      const cls = classEl?.textContent.trim() || '';
+
+      // 「◎[股票] 說明」「◎批踢踢公布欄」「Σ市民廣場     報告站長 PTT咬我」
+      // → 中文名 + 說明。開頭的 ◎ / Σ 是 BBS 用來分辨看板 / 分類的符號，改由卡片樣式表達。
+      const raw = (titleEl?.textContent || '').trim().replace(/^[◎Σ●○]\s*/, '');
+      // 看板：「[中文名] 說明」。分類的標題是自由文字，空白數量不固定、還可能有「<< … >>」裝飾，
+      // 所以只在「開頭 2～8 個漢字 + 空白」時才切成名稱與說明，其他情況整串當名稱。
+      let zh = raw, desc = '', m;
+      if ((m = raw.match(/^\[([^\]]+)\]\s*(.*)$/))) [, zh, desc] = m;
+      else if ((m = raw.match(/^(\p{Script=Han}{2,8})\s+(.+)$/u))) [, zh, desc] = m;
+      zh = zh.trim() || name;                // 標題空白時，用英文板名頂上
+      desc = desc.replace(/\s{2,}/g, ' ').trim();
+      if (titleEl) {
+        titleEl.textContent = '';
+        titleEl.append(el('span', 'ptt-board-zh', zh));
+        if (desc) titleEl.append(el('span', 'ptt-board-desc', desc));
+        titleEl.title = desc ? `${zh}　${desc}` : zh;
+      }
+
+      // 分類的類別欄固定是「一一」，沒有意義
+      if (classEl && /^一+$/.test(cls)) classEl.classList.add('is-empty');
+      if (isHot && nameEl) nameEl.dataset.rank = i + 1;
+      ent.dataset.search = [name, zh, desc, cls].join(' ').toLowerCase();
+    });
+
+    // ── 即時篩選 ──
+    const bar = el('div', 'ptt-board-filter');
+    const input = el('input');
+    input.type = 'search';
+    input.placeholder = `篩選 ${ents.length} 個${isHot ? '熱門看板' : '項目'}：英文名、中文名、類別、說明（按 / 開始）`;
+    const count = el('span', 'ptt-board-count');
+    bar.append(input, count);
+    list.prepend(bar);
+    const empty = el('div', 'ptt-board-empty', '沒有符合的看板');
+    empty.hidden = true;
+    list.append(empty);
+
+    const visible = () => ents.filter((e) => !e.hidden);
+    input.addEventListener('input', () => {
+      const terms = input.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      ents.forEach((e) => { e.hidden = !terms.every((t) => e.dataset.search.includes(t)); });
+      const n = visible().length;
+      count.textContent = terms.length ? `${n} / ${ents.length}` : '';
+      empty.hidden = n > 0;
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {               // Enter：直接進第一個結果
+        const first = visible()[0]?.querySelector('a.board');
+        if (first) location.href = first.href;
+      } else if (e.key === 'Escape') {       // Esc：清空
+        input.value = '';
+        input.dispatchEvent(new Event('input'));
+        input.blur();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || '');
+      if (e.key === '/' && !typing && !e.metaKey && !e.ctrlKey) { e.preventDefault(); input.focus(); }
+    });
+  };
+
   // ═════════════ 文章頁 ═════════════
 
   const list = document.querySelector('.r-list-container');
   if (list) { enhanceList(list); document.documentElement.classList.add('ptt-enhanced'); return; }
+
+  const boardList = document.querySelector('.b-list-container');
+  if (boardList) { enhanceBoards(boardList); document.documentElement.classList.add('ptt-enhanced'); return; }
 
   const main = document.getElementById('main-content');
   if (!main) return;
