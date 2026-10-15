@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         PTT 閱讀增強
 // @namespace    ptt-reader-theme
-// @version      1.2.0
+// @version      1.2.1
 // @homepageURL  https://github.com/turtle11311/web-userstyle
 // @supportURL   https://github.com/turtle11311/web-userstyle/issues
 // @updateURL    https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-enhance.user.js
 // @downloadURL  https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-enhance.user.js
 // @description  文章頁：推文依 ID 上色、標出原PO、同一人連續推文淡化重複 ID；發信站／文章網址整理成資訊卡；原PO補充與編輯紀錄融入推文時間軸。清單頁：作者 ID 同色、Re:/Fw: 標籤、標出原PO回覆。樣式由 Stylus「PTT 閱讀改版」負責。
 // @match        https://www.ptt.cc/bbs/*
+// @match        https://www.ptt.cc/cls/*
 // @run-at       document-end
 // @grant        none
 // ==/UserScript==
