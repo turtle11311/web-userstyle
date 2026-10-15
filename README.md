@@ -6,6 +6,7 @@
 |---|---|---|---|
 | PTT | [`ptt/ptt-reader-theme.user.css`](ptt/ptt-reader-theme.user.css) | Stylus | [安裝](https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-reader-theme.user.css) |
 | PTT | [`ptt/ptt-enhance.user.js`](ptt/ptt-enhance.user.js) | Violentmonkey | [安裝](https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-enhance.user.js) |
+| Claude | [`claude/claude-custom-font.user.css`](claude/claude-custom-font.user.css) | Stylus | [安裝](https://raw.githubusercontent.com/turtle11311/web-userstyle/main/claude/claude-custom-font.user.css) |
 | Readmoo | [`readmoo/readmoo-custom-font.user.css`](readmoo/readmoo-custom-font.user.css) | Stylus | [安裝](https://raw.githubusercontent.com/turtle11311/web-userstyle/main/readmoo/readmoo-custom-font.user.css) |
 
 點「安裝」會開啟 raw 檔案，Stylus / Violentmonkey 會自動跳出安裝頁。
@@ -34,6 +35,17 @@
 兩者分開安裝：只裝 Stylus 樣式就有完整外觀；再裝 userscript 才有上面這些增強。
 兩邊用 `.ptt-*`、`[data-uid]`、`.is-op` 這些 class 溝通。
 
+## Claude
+
+### Claude 自訂字體（Stylus）
+
+claude.ai 的字體變數只有最上層 3 個是真的字體（`--font-anthropic-sans` / `-serif` / `-mono`），
+其他像 `--font-ui`、`--font-claude-response` 都是從它們衍生的，所以只覆寫這 3 個。
+
+- 黑體：介面與你的訊息，預設源起黑體 `GenKiGothic2 TW`
+- 明體：Claude 的回覆，預設 `Claude Serif`——源起明體依字重對應（一般 → Medium、500 → SemiBold、600 → Bold、700+ → Heavy）
+- 等寬：程式碼，預設 Sarasa Mono TC
+
 ## Readmoo
 
 ### Readmoo 自訂閱讀字體（Stylus）
@@ -49,8 +61,11 @@
 | 儷黑 Pro / 儷宋 Pro / 冬青黑體 | PTT 全形符號補位 | 內建 | — |
 | 細明體（MingLiU） | PTT 全形符號補位（Windows 自動改用） | — | 繁中版內建；其他語系到「設定 → 選用功能」加裝「中文（繁體）補充字型」 |
 | jf-jinxuan-4.0 | Readmoo 預設內文字體 | 需安裝 | 需安裝 |
+| [源起黑體 GenKiGothic2 TW](https://github.com/ButTaiwan/genki-font) | Claude 介面 | 需安裝 | 需安裝 |
+| [源起明體 GenKiMin2 TW](https://github.com/ButTaiwan/genki-font) | Claude 回覆 | 需安裝 | 需安裝 |
 
 ## 安裝擴充功能時的注意事項
 
 - **Violentmonkey（Chrome）**：到 `chrome://extensions` → Violentmonkey →「詳細資料」，開啟「允許使用者指令碼」，網站存取權設為「在所有網站上」。沒開的話腳本會顯示已安裝但不會執行。剛裝好或改完設定後，記得重新整理頁面。
 - **字體名稱**：在 Stylus 齒輪裡填字體時，每個名稱都要加引號，例如 `'jf-jinxuan-4.0'`。名稱裡有數字或點時，不加引號會讓整條 CSS 失效。
+- **用英文名稱**：一律填字體的英文家族名（`local()` 裡用 PostScript 名稱），不受系統語言影響；中文名稱（例如「蘋方-繁」）在不同語言的系統上不一定比對得到。

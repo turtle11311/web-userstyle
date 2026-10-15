@@ -1,0 +1,44 @@
+/* ==UserStyle==
+@name           Claude 自訂字體
+@namespace      claude-custom-font
+@version        1.0.0
+@homepageURL    https://github.com/turtle11311/web-userstyle
+@supportURL     https://github.com/turtle11311/web-userstyle/issues
+@updateURL      https://raw.githubusercontent.com/turtle11311/web-userstyle/main/claude/claude-custom-font.user.css
+@description    claude.ai 的介面、Claude 的回覆、程式碼各自換成自訂字體
+@preprocessor   default
+@var text sansFont  "黑體：介面、你的訊息（每個名稱加引號，逗號分隔）" "'GenKiGothic2 TW'"
+@var text serifFont "明體：Claude 的回覆（預設是下方依字重對應的源起明體）" "'Claude Serif'"
+@var text monoFont  "等寬：程式碼" "'Sarasa Mono TC'"
+==/UserStyle== */
+
+/*
+ * claude.ai 的字體變數是一棵樹，只有最上層 3 個是「真的字體」，其他都是 var() 衍生：
+ *
+ *   --font-anthropic-sans  → --font-ui → --font-user-message、--font-sans-serif
+ *   --font-anthropic-serif → --font-ui-serif → --font-serif；--font-claude-response
+ *   --font-anthropic-mono  → --font-mono
+ *
+ * 所以只要覆寫這 3 個，整個網站都會跟著換，不必逐一覆寫衍生變數。
+ *
+ * 字體名稱一律用英文家族名或 PostScript 名稱：這兩種不受系統語言影響，
+ * 英文或中文的 macOS / Windows 都比對得到。
+ * 每組後面只留 macOS 與 Windows 各一個內建字體當退路。
+ */
+@-moz-document domain("claude.ai") {
+
+  /* 源起明體依字重對應：一般內文用 Medium，比 Regular 在螢幕上清楚；
+     粗體依序對應 SemiBold / Bold / Heavy。
+     local() 用 PostScript 名稱，跟系統語言無關。 */
+  @font-face { font-family: "Claude Serif"; src: local("GenKiMin2TW-M");  font-weight: 100 400; }
+  @font-face { font-family: "Claude Serif"; src: local("GenKiMin2TW-SB"); font-weight: 500; }
+  @font-face { font-family: "Claude Serif"; src: local("GenKiMin2TW-B");  font-weight: 600; }
+  @font-face { font-family: "Claude Serif"; src: local("GenKiMin2TW-H");  font-weight: 700 900; }
+
+  :root {
+    /*                        你的設定           macOS          Windows                  通用 */
+    --font-anthropic-sans:  var(--sansFont),  "PingFang TC", "Microsoft JhengHei",     system-ui, sans-serif !important;
+    --font-anthropic-serif: var(--serifFont), "Songti TC",   "PMingLiU",               serif !important;
+    --font-anthropic-mono:  var(--monoFont),  Menlo,         Consolas,                 ui-monospace, monospace !important;
+  }
+}
