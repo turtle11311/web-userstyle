@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PTT 閱讀增強
 // @namespace    ptt-reader-theme
-// @version      1.3.0
+// @version      1.4.0
 // @homepageURL  https://github.com/turtle11311/web-userstyle
 // @supportURL   https://github.com/turtle11311/web-userstyle/issues
 // @updateURL    https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-enhance.user.js
@@ -213,7 +213,7 @@
 
   const RE = {
     from:    /^※ 發信站: (.+?)(?:, 來自: ([\d.:a-fA-F]+)(?: \((.+?)\))?)?\s*$/,
-    url:     /^※ 文章網址: (\S+)/,
+    url:     /^※ 文章網址:\s*(\S*)/,   // 網址可能在 span 裡，也可能是 span 後面的 <a>
     edit:    /^※ 編輯: (\S+) \(([\d.:a-fA-F]+)(?: (.+?))?\)(?:, (\d\d\/\d\d\/\d{4} \d\d:\d\d:\d\d))?/,
     repost:  /^※ 轉錄者: (\S+) \(([\d.:a-fA-F]+)(?: (.+?))?\)(?:, (\d\d\/\d\d\/\d{4} \d\d:\d\d:\d\d))?/,
     origin:  /^※ \[本文轉錄自 /,
@@ -313,6 +313,81 @@
     }
   }
 
+  // ───────────── 引述 ─────────────
+  //
+  // 「※ 引述《id (暱稱)》之銘言：」後面接一串 <span class="f6">: …</span>，
+  // 連結行是 <span class="f6">: </span><a><span class="f6">網址</span></a>，影片連結後面還會跟 .richcontent。
+  // 每一段連續的引述行包成一個可摺疊的 <details>；Re: 文常見「引述一段、回一段」，後面幾段標成「引述（續）」。
+  // 只處理正文（發信站／第一則推文之前、簽名檔以外）。
+
+  const QUOTE_OPEN_MAX_LINES = 8;   // 超過這麼多行預設收合
+  const QUOTE_HEAD = /^※ 引述\s*《\s*([^\s》(]+)[^》]*》\s*之銘言/;
+  const isQuoteLine = (n) => n?.nodeType === 1 && n.matches('span.f6') && n.textContent.startsWith(':');
+  const isQuoteLink = (n) => n?.nodeType === 1 && n.tagName === 'A' && !!n.querySelector(':scope > span.f6');
+  const isEmbed = (n) => n?.nodeType === 1 && n.classList.contains('richcontent');
+  const isBlank = (n) => n?.nodeType === 3 && !n.textContent.trim();
+
+  {
+    const kids = [...main.childNodes];
+    const stopNode = lastFrom || main.querySelector(':scope > .push, :scope > .ptt-signature');
+    const end = stopNode ? kids.indexOf(stopNode) : kids.length;
+    let quotedId = null;
+    let blocks = 0;
+
+    for (let i = 0; i < end;) {
+      const n = kids[i];
+      let head = null, m;
+      const skipped = [];
+      if (n.nodeType === 1 && n.matches('span.f2') && (m = n.textContent.trim().match(QUOTE_HEAD))) {
+        head = n;
+        quotedId = m[1];
+        i++;
+        while (i < end && isBlank(kids[i])) skipped.push(kids[i++]);
+      }
+      if (!(isQuoteLine(kids[i]) || isQuoteLink(kids[i]))) {
+        if (!head) i++;
+        continue;
+      }
+
+      // 收集這一段：引述行、引述連結、跟在後面的影片預覽，以及夾在中間的換行
+      const run = [];
+      while (i < end) {
+        const k = kids[i];
+        if (isQuoteLine(k) || isQuoteLink(k) || isEmbed(k)) { run.push(k); i++; continue; }
+        if (isBlank(k) && (isQuoteLine(kids[i + 1]) || isQuoteLink(kids[i + 1]) || isEmbed(kids[i + 1]))) { run.push(k); i++; continue; }
+        break;
+      }
+
+      const lines = run.filter(isQuoteLine).length;
+      const box = el('details', 'ptt-quote');
+      box.open = lines <= QUOTE_OPEN_MAX_LINES;
+      if (quotedId) box.style.setProperty('--uid-hue', hueOf(quotedId));
+      const summary = el('summary', 'ptt-quote-head');
+      summary.append(el('span', 'ptt-quote-verb', head || blocks === 0 ? '引述' : '引述（續）'));
+      if (quotedId) summary.append(uidChip(quotedId));
+      summary.append(el('span', 'ptt-quote-lines', `${lines} 行`));
+      box.append(summary);
+
+      // 每行去掉一層「: 」；還剩「:」開頭的是引述中的引述，標成較淡的顏色
+      run.forEach((k) => {
+        if (!isQuoteLine(k)) return;
+        k.textContent = k.textContent.replace(/^: ?/, '');
+        if (k.textContent.startsWith(':')) k.classList.add('ptt-quote-nested');
+      });
+      const body = el('div', 'ptt-quote-body');
+      main.insertBefore(box, head || run[0]);
+      body.append(...run);
+      box.append(body);
+      head?.remove();
+      skipped.forEach((s) => s.remove());
+
+      // 框是區塊元素，緊接在後面的那個換行原本是最後一行的行尾，拿掉才不會多一行空白
+      const next = box.nextSibling;
+      if (next?.nodeType === 3) next.textContent = next.textContent.replace(/^\n/, '');
+      blocks++;
+    }
+  }
+
   // ───────────── 走過 #main-content 的子節點，重組 ─────────────
 
   const nodes = [...main.childNodes];
@@ -357,7 +432,11 @@
 
     if ((m = text.match(RE.url))) {
       const c = ensureCard(node);
-      const a = node.querySelector('a') || el('a', null, m[1]);
+      // 舊格式 <span>※ 文章網址: <a>url</a></span>；新格式 <span>※ 文章網址: </span><a><span>url</span></a>
+      const after = node.nextSibling;
+      const a = node.querySelector('a')
+        || (after?.nodeType === 1 && after.tagName === 'A' ? after : null)
+        || el('a', null, m[1]);
       a.classList.add('ptt-sig-url');
       c.append(metaRow('文章網址', a, copyButton(a.href || m[1])));
       node.remove();

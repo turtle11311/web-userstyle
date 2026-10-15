@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           PTT 閱讀改版
 @namespace      ptt-reader-theme
-@version        1.6.0
+@version        1.7.0
 @homepageURL    https://github.com/turtle11311/web-userstyle
 @supportURL     https://github.com/turtle11311/web-userstyle/issues
 @updateURL      https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-reader-theme.user.css
@@ -616,7 +616,8 @@
   html body .ptt-uid,
   html body .push[data-uid],
   html body .ptt-addendum,
-  html body .r-ent .author[data-uid] {
+  html body .r-ent .author[data-uid],
+  html body .ptt-quote {
     --uid-color: oklch(var(--uid-l) var(--uid-c) var(--uid-hue, 250));
   }
 
@@ -711,6 +712,7 @@
   html body .ptt-sig-ip,
   html body .ptt-sig-time { color: var(--muted); font-size: .92em; }
   html body #main-content a.ptt-sig-url { overflow-wrap: anywhere; min-width: 0; }
+  html body #main-content a.ptt-sig-url .f2 { color: inherit; }   /* 新格式的網址包在 .f2（綠色）裡 */
   html body .ptt-copy {
     font: inherit;
     font-size: .88em;
@@ -810,6 +812,48 @@
   html body .ptt-signature .push .push-tag.f1 { color: var(--h1); }
   html body .ptt-signature .push .push-content { color: var(--f3); }
   html body .ptt-signature .push .push-ipdatetime { float: right; font-size: inherit; color: inherit; }
+
+  /* 引述（userscript 包成 <details class="ptt-quote">）：
+     背景用頁面底色，比閱讀欄稍深一點，讓引述退到後面；左邊框用被引述者的 ID 色，跟推文同一套顏色。 */
+  html body .ptt-quote {
+    margin: .5em 0 .8em;
+    padding: .25em .9em .45em;
+    border-left: 3px solid var(--uid-color);
+    border-radius: 8px;
+    background: var(--bg);
+  }
+  html body .ptt-quote-head {
+    display: flex;
+    align-items: baseline;
+    gap: .5em;
+    padding: .2em 0;
+    color: var(--muted);
+    font-size: .78em;
+    line-height: 1.5;
+    white-space: normal;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+  }
+  html body .ptt-quote-head::-webkit-details-marker { display: none; }
+  html body .ptt-quote-head::before {
+    content: "▸";
+    display: inline-block;
+    color: var(--uid-color);
+    transition: transform .15s;
+  }
+  html body .ptt-quote[open] > .ptt-quote-head::before { transform: rotate(90deg); }
+  html body .ptt-quote-head:hover { color: var(--text); }
+  html body .ptt-quote-head .ptt-uid { font-weight: 600; }
+  html body .ptt-quote-lines { margin-left: auto; }
+  html body .ptt-quote-body {
+    margin-top: .2em;
+    color: color-mix(in srgb, var(--text) 78%, var(--muted));
+  }
+  /* PTT 把引述行標成 .f6（青色）；框裡改用一般內文色，連結維持連結色 */
+  html body .ptt-quote-body .f6 { color: inherit; }
+  html body .ptt-quote-body a .f6 { color: var(--accent); }
+  html body .ptt-quote-body .ptt-quote-nested { color: var(--muted); }
 
   /* 推文裡圖片連結的預覽：留在那則推文下面 */
   html body .ptt-push-embed { margin: .2em 0 .6em; max-width: 100%; }
