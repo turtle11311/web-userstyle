@@ -61,8 +61,8 @@ claude.ai 的字體變數只有最上層 3 個是真的字體（`--font-anthropi
 | 儷黑 Pro / 儷宋 Pro / 冬青黑體 | PTT 全形符號補位 | 內建 | — |
 | 細明體（MingLiU） | PTT 全形符號補位（Windows 自動改用） | — | 繁中版內建；其他語系到「設定 → 選用功能」加裝「中文（繁體）補充字型」 |
 | jf-jinxuan-4.0 | Readmoo 預設內文字體 | 需安裝 | 需安裝 |
-| [源起黑體 GenKiGothic2 TW](https://github.com/ButTaiwan/genki-font) | Claude 介面 | 需安裝 | 需安裝 |
-| [源起明體 GenKiMin2 TW](https://github.com/ButTaiwan/genki-font) | Claude 回覆 | 需安裝 | 需安裝 |
+| 源起黑體 GenKiGothic2 TW | Claude 介面 | 需安裝 | 需安裝 |
+| 源起明體 GenKiMin2 TW | Claude 回覆 | 需安裝 | 需安裝 |
 
 ## 安裝擴充功能時的注意事項
 
