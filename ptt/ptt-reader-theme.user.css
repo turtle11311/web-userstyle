@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           PTT 閱讀改版
 @namespace      ptt-reader-theme
-@version        1.5.1
+@version        1.6.0
 @homepageURL    https://github.com/turtle11311/web-userstyle
 @supportURL     https://github.com/turtle11311/web-userstyle/issues
 @updateURL      https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-reader-theme.user.css
@@ -546,6 +546,18 @@
   html body .push:hover { background: var(--surface-hover); }
   html body .push > span { white-space: pre-wrap; }
 
+  /* 樓層（userscript 寫進 data-floor）：
+     grid 容器的 ::before 會變成第一個 grid item，所以直接多開一欄放「12F」，不必改 HTML */
+  html body .push[data-floor] { grid-template-columns: 2.8em 2.2em 6.5em 1fr auto; }
+  html body .push[data-floor]::before {
+    content: attr(data-floor) "F";
+    color: var(--muted);
+    font-size: .75em;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    opacity: .8;
+  }
+
   html body .push .push-tag {
     display: inline-flex;
     justify-content: center;
@@ -824,6 +836,7 @@
     }
     html body #main-content .article-metaline-right { top: 20px; right: 16px; }
     html body .push { grid-template-columns: 2.2em 1fr auto; }
+    html body .push[data-floor] { grid-template-columns: 2.8em 2.2em 1fr auto; }
     html body .push .push-content { grid-column: 1 / -1; }
   }
 }

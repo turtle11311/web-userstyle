@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PTT 閱讀增強
 // @namespace    ptt-reader-theme
-// @version      1.2.1
+// @version      1.3.0
 // @homepageURL  https://github.com/turtle11311/web-userstyle
 // @supportURL   https://github.com/turtle11311/web-userstyle/issues
 // @updateURL    https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-enhance.user.js
@@ -190,11 +190,13 @@
   // ───────────── 推文 ─────────────
 
   let prevUid = null;
+  let floor = 0;          // 樓層：每一則推 / 噓 / → 都算一樓，依出現順序編號
   const decoratePush = (push) => {
     if (push.dataset.uid) return;
     const uid = push.querySelector('.push-userid')?.textContent.trim();
     if (!uid) return;
     push.dataset.uid = uid;
+    push.dataset.floor = ++floor;   // 簽名檔裡的假推文不會進到這裡，所以不佔樓層
     push.style.setProperty('--uid-hue', hueOf(uid));
 
     // 推 / 噓 / → 在 HTML 上 class 一樣，只能靠文字分
