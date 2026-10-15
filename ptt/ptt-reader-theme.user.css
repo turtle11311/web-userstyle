@@ -1,0 +1,687 @@
+/* ==UserStyle==
+@name           PTT 閱讀改版
+@namespace      ptt-reader-theme
+@version        1.4.1
+@homepageURL    https://github.com/turtle11311/web-userstyle
+@supportURL     https://github.com/turtle11311/web-userstyle/issues
+@updateURL      https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-reader-theme.user.css
+@description    PTT 網頁版：自訂等寬字體、卡片式文章清單、置中閱讀欄、對齊推文，配色跟隨系統深淺色。搭配 userscript「PTT 閱讀增強」可依 ID 上色、標出原PO、整理發信站與編輯紀錄。
+@preprocessor   default
+@var text   mainFont   "主要字體（每個名稱加引號，逗號分隔）" "'Sarasa Mono TC', sans-serif"
+@var select wideFont   "全形符號補位字體（框線、方塊、希臘字母等）" {"儷黑 Pro": "\"PTT Wide LiHei\",", "儷宋 Pro": "\"PTT Wide LiSong\",", "冬青黑體": "\"PTT Wide Hiragino\",", "關閉（符號會變半形）": "\"PTT Wide Off\","}
+@var range articleSize "內文字級" [20, 14, 28, 1, "px"]
+@var range lineHeight  "內文行距" [1.6, 1.0, 2.2, 0.1]
+@var range listSize    "清單字級" [17, 13, 24, 1, "px"]
+@var range pageWidth   "清單頁寬度" [880, 600, 1200, 20, "px"]
+==/UserStyle== */
+
+/*
+ * 設計原則
+ * - 只動「外框」：配色、間距、卡片、推文排版。
+ * - 內文維持 80 欄等寬格子（寬度 = 40em，因為半形字 = 0.5em），ANSI 圖不會歪。
+ * - 所有顏色集中在 :root 變數，深淺色只要換一組變數。
+ * - 選擇器前面加 html body 提高權重，蓋過 PTT 原本的規則，不必到處用 !important。
+ */
+@-moz-document domain("www.ptt.cc") {
+
+  /* ───────────── 字體 ─────────────
+   * PTT 從 BBS 搬來：Big5 雙位元組字佔 2 格、ASCII 佔 1 格，字體必須「中文 = 2 × 英數」。
+   * 但 ─ │ █ α ° × “ 這類「寬度不明」的符號在 BBS 是全形，Sarasa Mono 卻畫成半形。
+   * 解法：用 unicode-range 宣告只涵蓋這些符號的補位字體，放在 font-family 最前面，
+   * 瀏覽器逐字挑字體時，這些符號先被補位字體（全形）接走，其他字元落到主要字體。
+   *
+   * @font-face 的 src 不能用 var()，所以把三種補位字體都先宣告好，
+   * 再用 --wideFont（下拉選單的值，例如 "PTT Wide LiHei",）挑要用哪一個。
+   * 選「關閉」時給一個不存在的名字，瀏覽器會直接跳過它。
+   *
+   * 跨平台：src 裡的 local() 會依序找第一個存在的字體。儷黑、儷宋、冬青黑體是 macOS 內建，
+   * Windows 沒有，就退到細明體（MingLiU）——它本來就是照 Big5 終端機設計的，符號一定是全形。
+   * 所以同一個設定值在 Mac / PC 都能用，雲端同步設定也不會互相衝突。
+   */
+  @font-face {
+    font-family: "PTT Wide LiHei";
+    src: local("LiHei Pro"), local("MingLiU"), local("細明體");
+    unicode-range: U+A7-A8, U+AF-B1, U+B4, U+B7, U+D7, U+F7, U+2C7, U+2C9-2CB, U+2D9,
+      U+391-3A9, U+3B1-3C9, U+401, U+410-44F, U+451,
+      U+2013, U+2015, U+2018-2019, U+201C-201D, U+2022, U+2032-2033, U+2035, U+203E,
+      U+2103, U+2105, U+2109, U+2116, U+2121, U+2160-217F, U+2190-21FF, U+2200-22FF, U+2312,
+      U+2460-24FF, U+2500-25FF, U+2600-26FF;
+  }
+  @font-face {
+    font-family: "PTT Wide LiSong";
+    src: local("LiSong Pro"), local("MingLiU"), local("細明體");
+    unicode-range: U+A7-A8, U+AF-B1, U+B4, U+B7, U+D7, U+F7, U+2C7, U+2C9-2CB, U+2D9,
+      U+391-3A9, U+3B1-3C9, U+401, U+410-44F, U+451,
+      U+2013, U+2015, U+2018-2019, U+201C-201D, U+2022, U+2032-2033, U+2035, U+203E,
+      U+2103, U+2105, U+2109, U+2116, U+2121, U+2160-217F, U+2190-21FF, U+2200-22FF, U+2312,
+      U+2460-24FF, U+2500-25FF, U+2600-26FF;
+  }
+  @font-face {
+    font-family: "PTT Wide Hiragino";
+    src: local("Hiragino Sans TC W3"), local("HiraginoSansTC-W3"), local("MingLiU"), local("細明體");
+    unicode-range: U+A7-A8, U+AF-B1, U+B4, U+B7, U+D7, U+F7, U+2C7, U+2C9-2CB, U+2D9,
+      U+391-3A9, U+3B1-3C9, U+401, U+410-44F, U+451,
+      U+2013, U+2015, U+2018-2019, U+201C-201D, U+2022, U+2032-2033, U+2035, U+203E,
+      U+2103, U+2105, U+2109, U+2116, U+2121, U+2160-217F, U+2190-21FF, U+2200-22FF, U+2312,
+      U+2460-24FF, U+2500-25FF, U+2600-26FF;
+  }
+
+  html body,
+  html body * {
+    font-family: var(--wideFont) var(--mainFont), monospace !important;
+  }
+
+  /* ───────────── 色票：深色（柔和） ───────────── */
+  :root {
+    color-scheme: dark;
+    --bg: #1b1e24;
+    --surface: #23272f;
+    --surface-hover: #2a2f39;
+    --border: #343a46;
+    --text: #d4d6db;
+    --title: #eceef2;
+    --muted: #8b93a1;
+    --accent: #7fb4ff;
+    --visited: #a59bd0;
+    --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 4px 16px rgb(0 0 0 / .18);
+    --push-up: #6fcf7f;
+    --push-down: #f07b7b;
+
+    /* ANSI 前景：一般 / 高亮 */
+    --f0: #4b5260; --f1: #d06464; --f2: #5fb35f; --f3: #c0ab45;
+    --f4: #6a7fe0; --f5: #c06cc0; --f6: #4fb0b0; --f7: #b4b8bf;
+    --h:  #f2f3f5;
+    --h0: #7c8494; --h1: #ff8080; --h2: #86e386; --h3: #f2d870;
+    --h4: #95a8ff; --h5: #f29af2; --h6: #86e6e6; --h7: #f7f8fa;
+    /* ANSI 背景（b0 黑底改成透明，融入頁面背景） */
+    --b0: transparent; --b1: #a33a3a; --b2: #2f8a3a; --b3: #9c8a2a;
+    --b4: #2f43a3; --b5: #8f3a8f; --b6: #2a8a8a; --b7: #a7abb3;
+  }
+
+  /* ───────────── 色票：淺色（紙張） ───────────── */
+  @media (prefers-color-scheme: light) {
+    :root {
+      color-scheme: light;
+      --bg: #f4f0e6;
+      --surface: #fffdf8;
+      --surface-hover: #faf5ea;
+      --border: #e2dac8;
+      --text: #2d2a26;
+      --title: #1a1815;
+      --muted: #7d7568;
+      --accent: #1f5fbf;
+      --visited: #6a4fa8;
+      --shadow: 0 1px 2px rgb(60 40 0 / .06), 0 4px 16px rgb(60 40 0 / .06);
+      --push-up: #2e8b3e;
+      --push-down: #c8372d;
+
+      --f0: #2d2a26; --f1: #b42318; --f2: #2f7d32; --f3: #8a6a00;
+      --f4: #1f4fbf; --f5: #8e3a9a; --f6: #0f7c84; --f7: #5f5a52;
+      --h:  #1a1815;
+      --h0: #8a8478; --h1: #d92d20; --h2: #23913a; --h3: #a86a00;
+      --h4: #2f6fe0; --h5: #b03cc0; --h6: #0e8f99; --h7: #1a1815;
+      --b0: transparent; --b1: #f6cdc8; --b2: #cfe8cf; --b3: #f3e2a2;
+      --b4: #cdd8f6; --b5: #ecd2f0; --b6: #c8eaec; --b7: #e3ddd0;
+    }
+  }
+
+  /* ───────────── ANSI 顏色重新對應 ───────────── */
+  html body .f0 { color: var(--f0); } html body .f1 { color: var(--f1); }
+  html body .f2 { color: var(--f2); } html body .f3 { color: var(--f3); }
+  html body .f4 { color: var(--f4); } html body .f5 { color: var(--f5); }
+  html body .f6 { color: var(--f6); } html body .f7 { color: var(--f7); }
+  html body .hl { color: var(--h); }
+  html body .hl.f0 { color: var(--h0); } html body .hl.f1 { color: var(--h1); }
+  html body .hl.f2 { color: var(--h2); } html body .hl.f3 { color: var(--h3); }
+  html body .hl.f4 { color: var(--h4); } html body .hl.f5 { color: var(--h5); }
+  html body .hl.f6 { color: var(--h6); } html body .hl.f7 { color: var(--h7); }
+  html body .b0 { background-color: var(--b0); } html body .b1 { background-color: var(--b1); }
+  html body .b2 { background-color: var(--b2); } html body .b3 { background-color: var(--b3); }
+  html body .b4 { background-color: var(--b4); } html body .b5 { background-color: var(--b5); }
+  html body .b6 { background-color: var(--b6); } html body .b7 { background-color: var(--b7); }
+
+  /* ───────────── 共用：頁面、連結、上方列 ───────────── */
+  html body,
+  html body .bbs-screen {
+    background-color: var(--bg);
+    color: var(--text);
+  }
+  html body a:link { color: var(--accent); }
+  html body a:visited { color: var(--visited); }
+  html body a:hover { background: none; color: var(--accent); }
+
+  html body #topbar-container {
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  html body #topbar,
+  html body .action-bar,
+  html body #navigation {
+    max-width: var(--pageWidth);
+    margin: 0 auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+  html body #topbar a,
+  html body #topbar a:visited { color: var(--muted); }
+  html body #topbar #logo,
+  html body #topbar .board { color: var(--title); font-weight: 600; }
+  html body #topbar a:hover { background: none; color: var(--accent); }
+
+  /* 看板 / 精華區 / 翻頁按鈕 */
+  html body #action-bar-container {
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  html body .action-bar { padding-top: 8px; padding-bottom: 8px; }
+  html body .btn-group { display: inline-flex; gap: 6px; }
+  html body .action-bar .btn,
+  html body .action-bar .btn:link,
+  html body .action-bar .btn:visited {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    line-height: 1;
+    padding: 0 1.1em;
+    font-size: 14px;
+  }
+  html body .action-bar .btn:hover { background: var(--surface-hover); color: var(--accent); }
+  html body .action-bar .btn.selected { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+  html body .action-bar .btn.disabled { opacity: .4; }
+
+  /* ───────────── 文章清單：卡片 ───────────── */
+  html body .r-list-container {
+    max-width: var(--pageWidth);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 12px 16px 32px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* 上方固定的按鈕列變高了，內容要往下讓開（上方列 40px + 按鈕列 41px） */
+  html body .action-bar-margin { margin-top: 48px; }
+  html body .search-bar { margin-bottom: 6px; }
+  html body .search-bar .query {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--text);
+    padding: 10px 14px;
+    font-size: calc(var(--listSize) * .9);
+  }
+  html body .search-bar .query:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  html body .r-ent {
+    display: grid;
+    grid-template-columns: 3em 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 12px;
+    row-gap: 4px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    box-sizing: border-box;
+    transition: background-color .15s, transform .15s;
+  }
+  html body .r-ent:hover { background: var(--surface-hover); transform: translateY(-1px); }
+  html body .r-ent > * { font-size: var(--listSize); padding: 0; margin: 0; min-height: 0; }
+  /* PTT 原本用 .r-ent .title（2 個 class）推出左邊距；
+     權重先比 class 數，html body 這種元素選擇器加再多也贏不了，所以這裡寫同樣的 class */
+  html body .r-ent .title,
+  html body .r-ent .meta { margin: 0; }
+
+  /* 推文數：圓形徽章，底色跟著數字本身的顏色走 */
+  html body .r-ent .nrec {
+    grid-row: 1 / span 2;
+    float: none;
+    width: auto;
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+  }
+  html body .r-ent .nrec span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.3em;
+    height: 2.3em;
+    padding: 0 .3em;
+    box-sizing: border-box;
+    border-radius: 999px;
+    background: color-mix(in srgb, currentColor 16%, transparent);
+    font-weight: 700;
+    font-size: .85em;
+  }
+
+  /* 標題：整張卡片都可以點 */
+  /* 用 flex 吃掉 HTML 裡標題前面的換行空白，標題才會跟第二行切齊 */
+  html body .r-ent .title { display: flex; min-width: 0; align-self: end; line-height: 1.4; }
+  html body .r-ent .title a,
+  html body .r-list .title a:link { color: var(--title); font-weight: 600; }
+  html body .r-ent .title a:visited { color: var(--muted); font-weight: 500; }
+  html body .r-ent .title a:hover { background: none; color: var(--accent); }
+  html body .r-ent .title a::after { content: ""; position: absolute; inset: 0; }
+  html body .r-ent { position: relative; }
+
+  /* 被刪除的文章（標題沒有連結）淡化 */
+  html body .r-ent:not(:has(.title a)) { opacity: .45; box-shadow: none; }
+
+  /* 第二行：作者 · 日期 · 標記 … 選單 */
+  html body .r-ent .meta {
+    display: flex;
+    align-items: center;
+    gap: .5em;
+    color: var(--muted);
+    font-size: calc(var(--listSize) * .82);
+  }
+  html body .r-ent .meta > * { float: none; padding: 0; margin: 0; min-width: 0; width: auto; }
+  html body .r-ent .meta .author { order: 1; }
+  html body .r-ent .meta .date   { order: 2; }
+  html body .r-ent .meta .date::before { content: "· "; }
+  html body .r-ent .meta .mark   { order: 3; }
+  html body .r-ent .meta .mark:not(:empty) {
+    padding: 0 .5em;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--accent) 18%, transparent);
+    color: var(--accent);
+    font-size: .85em;
+  }
+  html body .r-ent .meta .article-menu { order: 4; margin-left: auto; position: relative; z-index: 1; }
+  html body .article-menu .trigger { color: var(--muted); padding: 0 .4em; border-radius: 6px; margin: 0; }
+  html body .article-menu .trigger:hover { background: var(--surface-hover); color: var(--text); }
+  html body .article-menu .dropdown {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  html body .article-menu .item a { color: var(--text); }
+  html body .article-menu .item a:hover { background: var(--surface-hover); color: var(--accent); }
+
+  /* 置底文章分隔線 */
+  html body .r-list-sep {
+    height: auto;
+    background: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0 2px;
+    color: var(--muted);
+    font-size: calc(var(--listSize) * .75);
+  }
+  html body .r-list-sep::before { content: "置底文章"; }
+  html body .r-list-sep::after { content: ""; flex: 1; border-top: 1px dashed var(--border); }
+
+  /* ───────────── 文章內容：置中閱讀欄 ───────────── */
+  html body #main-content {
+    position: relative;
+    box-sizing: border-box;
+    /* 80 欄 = 40em，再加左右內距 */
+    max-width: calc(40em + 80px);
+    width: auto;
+    margin: 24px auto 32px;
+    padding: 32px 40px;
+    font-size: var(--articleSize);
+    line-height: var(--lineHeight);
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+  }
+
+  /* 標頭四行（作者 / 看板 / 標題 / 時間）改成資訊列 */
+  html body #main-content .article-metaline,
+  html body #main-content .article-metaline-right {
+    background: none;
+    margin: 0;
+    line-height: 1.5;
+  }
+  html body #main-content .article-metaline-right { top: 32px; right: 40px; }
+  html body #main-content .article-meta-tag {
+    background: none;
+    color: var(--muted);
+    padding: 0;
+    margin-right: .8em;
+    font-size: .75em;
+  }
+  html body #main-content .article-meta-value {
+    background: none;
+    color: var(--muted);
+    padding: 0;
+    font-size: .85em;
+  }
+  /* 第 3 行是標題：放大、拿掉「標題」標籤 */
+  html body #main-content .article-metaline:nth-child(3) { margin: .4em 0 .3em; }
+  html body #main-content .article-metaline:nth-child(3) .article-meta-tag { display: none; }
+  html body #main-content .article-metaline:nth-child(3) .article-meta-value {
+    color: var(--title);
+    font-size: 1.35em;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  /* 第 4 行是時間：下面接分隔線 */
+  html body #main-content .article-metaline:nth-child(4) {
+    padding-bottom: .9em;
+    margin-bottom: .6em;
+    border-bottom: 1px solid var(--border);
+  }
+
+  html body #main-content a:link,
+  html body #main-content a:visited {
+    box-shadow: inset 0 -1px color-mix(in srgb, currentColor 45%, transparent);
+  }
+  html body #main-content a:hover { box-shadow: inset 0 -2px currentColor; }
+  html body .richcontent img { border-radius: 10px; }
+
+  /* ───────────── 推文：對齊表格 ───────────── */
+  html body .push {
+    display: grid;
+    /* 標籤 | ID（最長 12 字 = 6em）| 內容 | 時間 */
+    grid-template-columns: 2.2em 6.5em 1fr auto;
+    column-gap: .6em;
+    align-items: baseline;
+    padding: .35em .5em;
+    margin: 0 -.5em;
+    border-top: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: .88em;
+    line-height: 1.5;
+  }
+  html body .push:hover { background: var(--surface-hover); }
+  html body .push > span { white-space: pre-wrap; }
+
+  html body .push .push-tag {
+    display: inline-flex;
+    justify-content: center;
+    min-width: 0;
+    border-radius: 6px;
+    font-size: .85em;
+    font-weight: 700;
+    color: var(--push-up);
+    background: color-mix(in srgb, var(--push-up) 16%, transparent);
+  }
+  /* 噓 和 → 在 HTML 上的 class 一樣（f1 hl），CSS 分不出來，所以共用紅色系 */
+  html body .push .push-tag.f1 {
+    color: var(--push-down);
+    background: color-mix(in srgb, var(--push-down) 14%, transparent);
+  }
+  html body .push .push-userid { font-weight: 600; overflow: hidden; text-overflow: ellipsis; }
+  html body .push .push-content { color: var(--text); }
+  html body .push .push-ipdatetime {
+    float: none;
+    color: var(--muted);
+    font-size: .82em;
+    white-space: nowrap;
+  }
+
+  /* 新推文通知、底部導覽列 */
+  html body #article-polling {
+    max-width: calc(40em + 80px);
+    font-size: var(--articleSize);
+    box-sizing: border-box;
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--muted);
+    text-align: center;
+    padding: .5em;
+  }
+  html body #navigation-container {
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border);
+  }
+  html body #navigation a:link,
+  html body #navigation a:visited { color: var(--text); }
+  html body #navigation a:hover { background: var(--surface-hover); color: var(--accent); }
+  html body #navigation .bar { background: var(--border); width: 1px; }
+
+  /* ───────────── 搭配 userscript「PTT 閱讀增強」 ─────────────
+   * 以下選擇器只會對到腳本加上的 class / data-uid；沒裝腳本時不會有任何作用。
+   * ID 色：腳本把 ID 雜湊成色相 --uid-hue，這裡用 OKLCH 決定亮度和彩度，
+   * 所以每個 ID 顏色不同、但看起來一樣亮，深淺色模式各調一組。
+   */
+  :root { --uid-l: 0.80; --uid-c: 0.12; }
+  @media (prefers-color-scheme: light) {
+    :root { --uid-l: 0.52; --uid-c: 0.14; }
+  }
+  html body .ptt-uid,
+  html body .push[data-uid],
+  html body .ptt-addendum,
+  html body .r-ent .author[data-uid] {
+    --uid-color: oklch(var(--uid-l) var(--uid-c) var(--uid-hue, 250));
+  }
+
+  /* 清單頁：作者 ID 跟文章頁同一個顏色 */
+  html body .r-ent .meta .author[data-uid] { color: var(--uid-color); font-weight: 600; }
+
+  /* 清單頁：Re: / Fw: 變成標題前的小標籤 */
+  html body .ptt-prefix {
+    flex: none;
+    display: inline-block;
+    margin-right: .5em;
+    padding: .05em .45em;
+    border-radius: 6px;
+    font-size: .72em;
+    font-weight: 700;
+    line-height: 1.4;
+    vertical-align: .12em;
+  }
+  html body .ptt-prefix-re { color: var(--accent); background: color-mix(in srgb, var(--accent) 15%, transparent); }
+  html body .ptt-prefix-fw { color: var(--muted); background: color-mix(in srgb, var(--muted) 18%, transparent); }
+
+  /* 清單頁：原PO 回覆自己的文章 */
+  html body .r-ent.is-self-reply .meta .author[data-uid]::after {
+    content: "原PO回覆";
+    margin-left: .5em;
+    padding: .05em .5em;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--uid-color) 20%, transparent);
+    font-size: .9em;
+  }
+
+  /* 推文：ID 上色，左邊一條同色細線 */
+  html body .push[data-uid] .push-userid { color: var(--uid-color); }
+  html body .push[data-uid] { box-shadow: inset 3px 0 0 color-mix(in srgb, var(--uid-color) 55%, transparent); }
+
+  /* 同一人連續推文：重複的 ID 淡化，上方分隔線拿掉，讀起來像同一段話 */
+  html body .push.same-uid { border-top-color: transparent; }
+  html body .push.same-uid .push-userid { opacity: .3; }
+
+  /* 推 / 噓 / → 分開（腳本讀文字判斷）；→ 改成中性灰 */
+  html body .push.push-arrow .push-tag,
+  html body .push.push-arrow .push-tag.f1 {
+    color: var(--muted);
+    background: color-mix(in srgb, var(--muted) 16%, transparent);
+  }
+
+  /* 原PO 的推文：淡底色 + 時間前面的「原PO」標籤 */
+  html body .push.is-op { background: color-mix(in srgb, var(--uid-color) 9%, transparent); }
+  html body .push.is-op .push-ipdatetime::before {
+    content: "原PO";
+    margin-right: .6em;
+    padding: .05em .55em;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--uid-color) 22%, transparent);
+    color: var(--uid-color);
+    font-weight: 700;
+  }
+
+  /* 滑過 ID：同一人的推文高亮，其他人淡化 */
+  html body .push { transition: opacity .15s, background-color .15s; }
+  html body #main-content.has-uid-hl .push[data-uid]:not(.uid-hl) { opacity: .3; }
+  html body .push.uid-hl { background: color-mix(in srgb, var(--uid-color) 14%, transparent); }
+  html body .push-userid,
+  html body .ptt-uid { cursor: default; }
+
+  /* 標頭的作者 ID */
+  html body .ptt-uid { color: var(--uid-color); font-weight: 700; }
+  html body .ptt-nick { margin-left: .6em; color: var(--muted); }
+
+  /* 文末資訊卡：發信站 / 文章網址 / 推文前的編輯紀錄 */
+  html body .ptt-sigcard {
+    display: grid;
+    gap: .4em;
+    margin: 1em 0 1.2em;
+    padding: .8em 1em;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg);
+    font-size: .78em;
+    line-height: 1.5;
+    white-space: normal;
+  }
+  html body .ptt-sig-row { display: flex; gap: .8em; align-items: baseline; min-width: 0; }
+  html body .ptt-sig-label { flex: none; min-width: 4.5em; color: var(--muted); }
+  html body .ptt-sig-value { display: flex; flex-wrap: wrap; gap: .3em .7em; align-items: baseline; min-width: 0; color: var(--text); }
+  html body .ptt-sig-loc {
+    padding: 0 .55em;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--muted) 16%, transparent);
+    font-size: .92em;
+  }
+  html body .ptt-sig-ip,
+  html body .ptt-sig-time { color: var(--muted); font-size: .92em; }
+  html body #main-content a.ptt-sig-url { overflow-wrap: anywhere; min-width: 0; }
+  html body .ptt-copy {
+    font: inherit;
+    font-size: .88em;
+    padding: 0 .8em;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+  }
+  html body .ptt-copy:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* 原PO補充（改文章插在推文中間）：用作者色的卡片融入推文時間軸 */
+  html body .ptt-addendum {
+    margin: .5em -.5em;
+    padding: .7em .9em .8em;
+    border: 1px solid color-mix(in srgb, var(--uid-color) 35%, var(--border));
+    border-left: 3px solid var(--uid-color);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--uid-color) 7%, var(--surface));
+  }
+  html body .ptt-addendum-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .3em .7em;
+    align-items: baseline;
+    font-size: .78em;
+    line-height: 1.5;
+    color: var(--muted);
+    white-space: normal;
+  }
+  html body .ptt-addendum-verb { color: var(--text); }
+  html body .ptt-addendum-verb::before { content: "✎ "; color: var(--uid-color); }
+  html body .ptt-addendum.is-op .ptt-addendum-head .ptt-uid::after {
+    content: "原PO";
+    margin-left: .5em;
+    padding: .05em .5em;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--uid-color) 22%, transparent);
+    font-size: .9em;
+  }
+  html body .ptt-addendum-body { margin-top: .5em; }
+
+  /* 只有編輯紀錄、沒有補充文字：縮成時間軸上的一條虛線 */
+  html body .ptt-addendum.is-bare {
+    padding: .35em 0;
+    border: none;
+    background: none;
+  }
+  html body .ptt-addendum.is-bare .ptt-addendum-head { justify-content: center; }
+  html body .ptt-addendum.is-bare .ptt-addendum-head::before,
+  html body .ptt-addendum.is-bare .ptt-addendum-head::after {
+    content: "";
+    flex: 1 1 2em;
+    align-self: center;
+    border-top: 1px dashed color-mix(in srgb, var(--uid-color) 45%, var(--border));
+  }
+
+  /* 簽名檔：虛線隔開、加上小標、平常稍微淡化；裡面的 ANSI 圖照原樣 */
+  html body .ptt-signature {
+    margin: 1.4em 0 .2em;
+    padding-top: .5em;
+    border-top: 1px dashed var(--border);
+    opacity: .72;
+    transition: opacity .15s;
+  }
+  html body .ptt-signature:hover { opacity: 1; }
+  html body .ptt-signature::before {
+    content: "簽名檔";
+    display: block;
+    margin-bottom: .3em;
+    color: var(--muted);
+    font-size: .7em;
+    letter-spacing: .1em;
+  }
+  /* 簽名檔裡被 PTT 誤判成推文的行：還原成普通一行字，不套推文表格 */
+  html body .ptt-signature .push {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    font-size: inherit;
+    line-height: inherit;
+  }
+  html body .ptt-signature .push .push-tag,
+  html body .ptt-signature .push .push-tag.f1 {
+    display: inline;
+    padding: 0;
+    background: none;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+  html body .ptt-signature .push .push-tag { color: var(--h); }
+  html body .ptt-signature .push .push-tag.f1 { color: var(--h1); }
+  html body .ptt-signature .push .push-content { color: var(--f3); }
+  html body .ptt-signature .push .push-ipdatetime { float: right; font-size: inherit; color: inherit; }
+
+  /* 推文裡圖片連結的預覽：留在那則推文下面 */
+  html body .ptt-push-embed { margin: .2em 0 .6em; max-width: 100%; }
+
+  /* ※ [本文轉錄自 XX 看板] → 小標籤 */
+  html body span.ptt-origin {
+    display: inline-block;
+    padding: .1em .8em;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    color: var(--text);
+    font-size: .8em;
+    white-space: normal;
+  }
+
+  /* ───────────── 手機 ───────────── */
+  @media (max-width: 700px) {
+    html body #main-content {
+      margin: 12px 8px 24px;
+      padding: 20px 16px;
+      border-radius: 12px;
+      /* 讓 80 欄剛好塞進螢幕：(視窗寬 - 左右外距 16 - 內距 32) / 40 */
+      font-size: min(var(--articleSize), calc((100vw - 48px) / 40));
+    }
+    html body #main-content .article-metaline-right { top: 20px; right: 16px; }
+    html body .push { grid-template-columns: 2.2em 1fr auto; }
+    html body .push .push-content { grid-column: 1 / -1; }
+  }
+}

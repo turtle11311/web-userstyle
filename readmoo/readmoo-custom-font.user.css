@@ -1,0 +1,40 @@
+/* ==UserStyle==
+@name           Readmoo 自訂閱讀字體
+@namespace      readmoo-custom-font
+@version        1.2.0
+@homepageURL    https://github.com/turtle11311/web-userstyle
+@supportURL     https://github.com/turtle11311/web-userstyle/issues
+@updateURL      https://raw.githubusercontent.com/turtle11311/web-userstyle/main/readmoo/readmoo-custom-font.user.css
+@description    把 Readmoo 閱讀器 (next.readmoo.com) 的書本內文換成自己安裝的字體
+@preprocessor   stylus
+@var text  bodyFont    "內文字體（每個名稱加引號，逗號分隔）" "'jf-jinxuan-4.0', 'PingFang TC'"
+@var text  headingFont "標題字體（每個名稱加引號，逗號分隔）" "'jf-jinxuan-4.0', 'PingFang TC'"
+@var checkbox overrideHeadings "標題也套用自訂字體" 1
+==/UserStyle== */
+
+/*
+ * 書本內文是放在 iframe 裡的 XHTML，網址形如
+ *   https://next.readmoo.com/ebook/<id>/.../xxx.xhtml
+ * Stylus 會注入 iframe，所以要對準這個網址，而不是 /reader/ 頁面。
+ *
+ * 閱讀器本身的字體設定會寫出
+ *   body *:not(.non-moofont) { font-family: ... !important; }
+ * 這裡多加一層 html 提高權重，讓我們的規則蓋過它。
+ * 書本的標題、章節名稱帶有 .non-moofont class，所以另外處理。
+ *
+ * 字體變數直接當 Stylus 運算式帶入：'名稱' 會原樣輸出成帶引號的字串，
+ * 不能用 unquote()，否則 jf-jinxuan-4.0 這類名稱會失去引號而失效。
+ */
+@-moz-document url-prefix("https://next.readmoo.com/ebook/") {
+  html body,
+  html body *:not(.non-moofont) {
+    font-family: bodyFont, serif !important;
+  }
+
+  if overrideHeadings {
+    html body .non-moofont,
+    html body .non-moofont * {
+      font-family: headingFont, sans-serif !important;
+    }
+  }
+}
