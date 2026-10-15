@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           PTT 閱讀改版
 @namespace      ptt-reader-theme
-@version        1.5.0
+@version        1.5.1
 @homepageURL    https://github.com/turtle11311/web-userstyle
 @supportURL     https://github.com/turtle11311/web-userstyle/issues
 @updateURL      https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-reader-theme.user.css
@@ -219,7 +219,16 @@
     padding: 10px 14px;
     font-size: calc(var(--listSize) * .9);
   }
-  html body .search-bar .query:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  /* PTT 原本的 .search-bar .query:focus（權重 0,3,0）會把背景改成 #333，
+     淺色主題下就變成深底深字；這裡把焦點狀態的顏色也寫齊（權重 0,3,2）蓋過它。 */
+  html body .search-bar .query:focus {
+    border-color: var(--accent);
+    background: var(--surface);
+    color: var(--text);
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  html body .search-bar .query::placeholder { color: var(--muted); }
 
   html body .r-ent {
     display: grid;
