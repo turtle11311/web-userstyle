@@ -9,7 +9,7 @@
  * - 把 @var 解析成設定表（settings-schema.js），預設值寫成 :root 變數放在 CSS 最前面
  * - 版本號取 userstyle 的 @version，Chrome / Safari 兩邊一致
  */
-import { readFileSync, writeFileSync, rmSync, mkdirSync, cpSync } from 'node:fs';
+import { readFileSync, writeFileSync, rmSync, mkdirSync, cpSync, existsSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -74,15 +74,32 @@ rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist, { recursive: true });
 cpSync(src, dist, { recursive: true });
 
+// ───────────── 內附字體 ─────────────
+// Safari 不讓網頁用使用者自己裝的字體，所以把字體檔包進擴充功能。
+// extension/fonts/<家族名去空白>-<字重>.woff2，例如 SarasaMonoTC-SemiBold.woff2 → "Sarasa Mono TC" 600。
+// 家族名取跟系統字體一樣的名字，設定裡的「主要字體」不用改；Chrome 也會改用內附的這份，兩邊一致。
+const WEIGHTS = { Thin: 100, ExtraLight: 200, Light: 300, Regular: 400, Medium: 500, SemiBold: 600, Bold: 700, ExtraBold: 800, Black: 900 };
+const fontDir = join(here, 'fonts');
+const fonts = existsSync(fontDir)
+  ? readdirSync(fontDir).flatMap((file) => {
+      const m = file.match(/^(.+?)-([A-Za-z]+?)(Italic)?\.(woff2|woff|ttf|otf)$/);
+      if (!m || !(m[2] in WEIGHTS)) return [];
+      const family = m[1].replace(/(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])/g, ' ');
+      return [{ family, weight: WEIGHTS[m[2]], style: m[3] ? 'italic' : 'normal', file: `fonts/${file}` }];
+    })
+  : [];
+if (fonts.length) cpSync(fontDir, join(dist, 'fonts'), { recursive: true });
+
 writeFileSync(join(dist, 'ptt-theme.css'), themeCss);
 writeFileSync(join(dist, 'ptt-enhance.js'), js);
 writeFileSync(
   join(dist, 'settings-schema.js'),
-  `// 由 build.mjs 從 @var 產生\nglobalThis.PTT_SCHEMA = ${JSON.stringify(schema, null, 2)};\n`,
+  `// 由 build.mjs 從 @var 與 extension/fonts 產生\nglobalThis.PTT_SCHEMA = ${JSON.stringify(schema, null, 2)};\n` +
+    `globalThis.PTT_FONTS = ${JSON.stringify(fonts, null, 2)};\n`,
 );
 
 const manifest = JSON.parse(readFileSync(join(src, 'manifest.json'), 'utf8'));
 manifest.version = meta('version');
 writeFileSync(join(dist, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
 
-console.log(`built extension/dist  v${manifest.version}  (${schema.length} settings)`);
+console.log(`built extension/dist  v${manifest.version}  (${schema.length} settings, ${fonts.length} fonts)`);

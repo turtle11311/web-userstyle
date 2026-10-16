@@ -16,6 +16,20 @@
     }
   };
 
+  // 內附字體：content script 的 CSS 裡 url() 沒辦法指到擴充功能自己的檔案
+  // （Chrome / Safari 的網址開頭還不一樣），所以在這裡用 runtime.getURL 組出來再插進頁面
+  if (PTT_FONTS.length) {
+    const style = document.createElement('style');
+    style.textContent = PTT_FONTS.map((f) => `@font-face {
+      font-family: "${f.family}";
+      src: url("${api.runtime.getURL(f.file)}") format("${f.file.endsWith('.woff2') ? 'woff2' : f.file.endsWith('.woff') ? 'woff' : 'truetype'}");
+      font-weight: ${f.weight};
+      font-style: ${f.style};
+      font-display: swap;
+    }`).join('\n');
+    root.append(style);
+  }
+
   api.storage.sync.get('vars').then(({ vars }) => apply(vars));
   api.storage.onChanged.addListener((changes, area) => {
     if (area === 'sync' && changes.vars) apply(changes.vars.newValue);

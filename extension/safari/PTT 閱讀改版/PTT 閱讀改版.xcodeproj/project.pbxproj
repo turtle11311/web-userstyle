@@ -7,81 +7,83 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA66325C3081FE2E00CE5123 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA66325B3081FE2E00CE5123 /* AppDelegate.swift */; };
-		FA6632603081FE2E00CE5123 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = FA66325E3081FE2E00CE5123 /* Main.html */; };
-		FA6632623081FE2E00CE5123 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FA6632613081FE2E00CE5123 /* Icon.png */; };
-		FA6632643081FE2E00CE5123 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = FA6632633081FE2E00CE5123 /* Style.css */; };
-		FA6632663081FE2E00CE5123 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = FA6632653081FE2E00CE5123 /* Script.js */; };
-		FA6632683081FE2E00CE5123 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6632673081FE2E00CE5123 /* ViewController.swift */; };
-		FA66326B3081FE2E00CE5123 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6632693081FE2E00CE5123 /* Main.storyboard */; };
-		FA66326D3081FE2F00CE5123 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA66326C3081FE2F00CE5123 /* Assets.xcassets */; };
-		FA6632743081FE2F00CE5123 /* PTT 閱讀改版 Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FA6632733081FE2F00CE5123 /* PTT 閱讀改版 Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		FA6632793081FE2F00CE5123 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6632783081FE2F00CE5123 /* SafariWebExtensionHandler.swift */; };
-		FA66328E3081FE2F00CE5123 /* ptt-theme.css in Resources */ = {isa = PBXBuildFile; fileRef = FA6632853081FE2F00CE5123 /* ptt-theme.css */; };
-		FA66328F3081FE2F00CE5123 /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = FA6632863081FE2F00CE5123 /* options.js */; };
-		FA6632903081FE2F00CE5123 /* settings-schema.js in Resources */ = {isa = PBXBuildFile; fileRef = FA6632873081FE2F00CE5123 /* settings-schema.js */; };
-		FA6632913081FE2F00CE5123 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = FA6632883081FE2F00CE5123 /* icons */; };
-		FA6632923081FE2F00CE5123 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = FA6632893081FE2F00CE5123 /* manifest.json */; };
-		FA6632933081FE2F00CE5123 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = FA66328A3081FE2F00CE5123 /* options.html */; };
-		FA6632943081FE2F00CE5123 /* ptt-enhance.js in Resources */ = {isa = PBXBuildFile; fileRef = FA66328B3081FE2F00CE5123 /* ptt-enhance.js */; };
-		FA6632953081FE2F00CE5123 /* settings.js in Resources */ = {isa = PBXBuildFile; fileRef = FA66328C3081FE2F00CE5123 /* settings.js */; };
-		FA6632963081FE2F00CE5123 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = FA66328D3081FE2F00CE5123 /* options.css */; };
+		FAB2F43C30820103005F381A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2F43B30820103005F381A /* AppDelegate.swift */; };
+		FAB2F44030820103005F381A /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F43E30820103005F381A /* Main.html */; };
+		FAB2F44230820103005F381A /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F44130820103005F381A /* Icon.png */; };
+		FAB2F44430820103005F381A /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F44330820103005F381A /* Style.css */; };
+		FAB2F44630820103005F381A /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F44530820103005F381A /* Script.js */; };
+		FAB2F44830820103005F381A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2F44730820103005F381A /* ViewController.swift */; };
+		FAB2F44B30820103005F381A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F44930820103005F381A /* Main.storyboard */; };
+		FAB2F44D30820103005F381A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F44C30820103005F381A /* Assets.xcassets */; };
+		FAB2F45430820104005F381A /* PTT 閱讀改版 Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FAB2F45330820104005F381A /* PTT 閱讀改版 Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FAB2F45930820104005F381A /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2F45830820104005F381A /* SafariWebExtensionHandler.swift */; };
+		FAB2F46F30820104005F381A /* ptt-theme.css in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F46530820104005F381A /* ptt-theme.css */; };
+		FAB2F47030820104005F381A /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F46630820104005F381A /* options.js */; };
+		FAB2F47130820104005F381A /* settings-schema.js in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F46730820104005F381A /* settings-schema.js */; };
+		FAB2F47230820104005F381A /* icons in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F46830820104005F381A /* icons */; };
+		FAB2F47330820104005F381A /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F46930820104005F381A /* manifest.json */; };
+		FAB2F47430820104005F381A /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F46A30820104005F381A /* options.html */; };
+		FAB2F47530820104005F381A /* ptt-enhance.js in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F46B30820104005F381A /* ptt-enhance.js */; };
+		FAB2F47630820104005F381A /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F46C30820104005F381A /* fonts */; };
+		FAB2F47730820104005F381A /* settings.js in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F46D30820104005F381A /* settings.js */; };
+		FAB2F47830820104005F381A /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = FAB2F46E30820104005F381A /* options.css */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		FA6632753081FE2F00CE5123 /* PBXContainerItemProxy */ = {
+		FAB2F45530820104005F381A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = FA6632503081FE2E00CE5123 /* Project object */;
+			containerPortal = FAB2F43030820103005F381A /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = FA6632723081FE2F00CE5123;
+			remoteGlobalIDString = FAB2F45230820104005F381A;
 			remoteInfo = "PTT 閱讀改版 Extension";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		FA6632803081FE2F00CE5123 /* Embed Foundation Extensions */ = {
+		FAB2F46030820104005F381A /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			dstPath = "";
 			dstSubfolder = PlugIns;
 			files = (
-				FA6632743081FE2F00CE5123 /* PTT 閱讀改版 Extension.appex in Embed Foundation Extensions */,
+				FAB2F45430820104005F381A /* PTT 閱讀改版 Extension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FA6632583081FE2E00CE5123 /* PTT 閱讀改版.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PTT 閱讀改版.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FA66325B3081FE2E00CE5123 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FA66325F3081FE2E00CE5123 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
-		FA6632613081FE2E00CE5123 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		FA6632633081FE2E00CE5123 /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
-		FA6632653081FE2E00CE5123 /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
-		FA6632673081FE2E00CE5123 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		FA66326A3081FE2E00CE5123 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		FA66326C3081FE2F00CE5123 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FA66326E3081FE2F00CE5123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FA6632733081FE2F00CE5123 /* PTT 閱讀改版 Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "PTT 閱讀改版 Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FA6632783081FE2F00CE5123 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
-		FA66327A3081FE2F00CE5123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FA6632853081FE2F00CE5123 /* ptt-theme.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = "ptt-theme.css"; path = "../../../dist/ptt-theme.css"; sourceTree = "<group>"; };
-		FA6632863081FE2F00CE5123 /* options.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = options.js; path = ../../../dist/options.js; sourceTree = "<group>"; };
-		FA6632873081FE2F00CE5123 /* settings-schema.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "settings-schema.js"; path = "../../../dist/settings-schema.js"; sourceTree = "<group>"; };
-		FA6632883081FE2F00CE5123 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../dist/icons; sourceTree = "<group>"; };
-		FA6632893081FE2F00CE5123 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../dist/manifest.json; sourceTree = "<group>"; };
-		FA66328A3081FE2F00CE5123 /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../../dist/options.html; sourceTree = "<group>"; };
-		FA66328B3081FE2F00CE5123 /* ptt-enhance.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "ptt-enhance.js"; path = "../../../dist/ptt-enhance.js"; sourceTree = "<group>"; };
-		FA66328C3081FE2F00CE5123 /* settings.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = settings.js; path = ../../../dist/settings.js; sourceTree = "<group>"; };
-		FA66328D3081FE2F00CE5123 /* options.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = options.css; path = ../../../dist/options.css; sourceTree = "<group>"; };
+		FAB2F43830820103005F381A /* PTT 閱讀改版.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PTT 閱讀改版.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAB2F43B30820103005F381A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FAB2F43F30820103005F381A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		FAB2F44130820103005F381A /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		FAB2F44330820103005F381A /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		FAB2F44530820103005F381A /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		FAB2F44730820103005F381A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FAB2F44A30820103005F381A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FAB2F44C30820103005F381A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FAB2F44E30820103005F381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAB2F45330820104005F381A /* PTT 閱讀改版 Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "PTT 閱讀改版 Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAB2F45830820104005F381A /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		FAB2F45A30820104005F381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAB2F46530820104005F381A /* ptt-theme.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = "ptt-theme.css"; path = "../../../dist/ptt-theme.css"; sourceTree = "<group>"; };
+		FAB2F46630820104005F381A /* options.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = options.js; path = ../../../dist/options.js; sourceTree = "<group>"; };
+		FAB2F46730820104005F381A /* settings-schema.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "settings-schema.js"; path = "../../../dist/settings-schema.js"; sourceTree = "<group>"; };
+		FAB2F46830820104005F381A /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../dist/icons; sourceTree = "<group>"; };
+		FAB2F46930820104005F381A /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../dist/manifest.json; sourceTree = "<group>"; };
+		FAB2F46A30820104005F381A /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../../dist/options.html; sourceTree = "<group>"; };
+		FAB2F46B30820104005F381A /* ptt-enhance.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "ptt-enhance.js"; path = "../../../dist/ptt-enhance.js"; sourceTree = "<group>"; };
+		FAB2F46C30820104005F381A /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fonts; path = ../../../dist/fonts; sourceTree = "<group>"; };
+		FAB2F46D30820104005F381A /* settings.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = settings.js; path = ../../../dist/settings.js; sourceTree = "<group>"; };
+		FAB2F46E30820104005F381A /* options.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = options.css; path = ../../../dist/options.css; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		FA6632553081FE2E00CE5123 /* Frameworks */ = {
+		FAB2F43530820103005F381A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
 			);
 		};
-		FA6632703081FE2F00CE5123 /* Frameworks */ = {
+		FAB2F45030820104005F381A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
 			);
@@ -89,70 +91,71 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FA66324F3081FE2E00CE5123 = {
+		FAB2F42F30820103005F381A = {
 			isa = PBXGroup;
 			children = (
-				FA66325A3081FE2E00CE5123 /* PTT 閱讀改版 */,
-				FA6632773081FE2F00CE5123 /* PTT 閱讀改版 Extension */,
-				FA6632593081FE2E00CE5123 /* Products */,
+				FAB2F43A30820103005F381A /* PTT 閱讀改版 */,
+				FAB2F45730820104005F381A /* PTT 閱讀改版 Extension */,
+				FAB2F43930820103005F381A /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		FA6632593081FE2E00CE5123 /* Products */ = {
+		FAB2F43930820103005F381A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FA6632583081FE2E00CE5123 /* PTT 閱讀改版.app */,
-				FA6632733081FE2F00CE5123 /* PTT 閱讀改版 Extension.appex */,
+				FAB2F43830820103005F381A /* PTT 閱讀改版.app */,
+				FAB2F45330820104005F381A /* PTT 閱讀改版 Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FA66325A3081FE2E00CE5123 /* PTT 閱讀改版 */ = {
+		FAB2F43A30820103005F381A /* PTT 閱讀改版 */ = {
 			isa = PBXGroup;
 			children = (
-				FA66325B3081FE2E00CE5123 /* AppDelegate.swift */,
-				FA6632673081FE2E00CE5123 /* ViewController.swift */,
-				FA6632693081FE2E00CE5123 /* Main.storyboard */,
-				FA66326C3081FE2F00CE5123 /* Assets.xcassets */,
-				FA66326E3081FE2F00CE5123 /* Info.plist */,
-				FA66325D3081FE2E00CE5123 /* Resources */,
+				FAB2F43B30820103005F381A /* AppDelegate.swift */,
+				FAB2F44730820103005F381A /* ViewController.swift */,
+				FAB2F44930820103005F381A /* Main.storyboard */,
+				FAB2F44C30820103005F381A /* Assets.xcassets */,
+				FAB2F44E30820103005F381A /* Info.plist */,
+				FAB2F43D30820103005F381A /* Resources */,
 			);
 			path = "PTT 閱讀改版";
 			sourceTree = "<group>";
 		};
-		FA66325D3081FE2E00CE5123 /* Resources */ = {
+		FAB2F43D30820103005F381A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FA66325E3081FE2E00CE5123 /* Main.html */,
-				FA6632613081FE2E00CE5123 /* Icon.png */,
-				FA6632633081FE2E00CE5123 /* Style.css */,
-				FA6632653081FE2E00CE5123 /* Script.js */,
+				FAB2F43E30820103005F381A /* Main.html */,
+				FAB2F44130820103005F381A /* Icon.png */,
+				FAB2F44330820103005F381A /* Style.css */,
+				FAB2F44530820103005F381A /* Script.js */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		FA6632773081FE2F00CE5123 /* PTT 閱讀改版 Extension */ = {
+		FAB2F45730820104005F381A /* PTT 閱讀改版 Extension */ = {
 			isa = PBXGroup;
 			children = (
-				FA6632843081FE2F00CE5123 /* Resources */,
-				FA6632783081FE2F00CE5123 /* SafariWebExtensionHandler.swift */,
-				FA66327A3081FE2F00CE5123 /* Info.plist */,
+				FAB2F46430820104005F381A /* Resources */,
+				FAB2F45830820104005F381A /* SafariWebExtensionHandler.swift */,
+				FAB2F45A30820104005F381A /* Info.plist */,
 			);
 			path = "PTT 閱讀改版 Extension";
 			sourceTree = "<group>";
 		};
-		FA6632843081FE2F00CE5123 /* Resources */ = {
+		FAB2F46430820104005F381A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FA6632853081FE2F00CE5123 /* ptt-theme.css */,
-				FA6632863081FE2F00CE5123 /* options.js */,
-				FA6632873081FE2F00CE5123 /* settings-schema.js */,
-				FA6632883081FE2F00CE5123 /* icons */,
-				FA6632893081FE2F00CE5123 /* manifest.json */,
-				FA66328A3081FE2F00CE5123 /* options.html */,
-				FA66328B3081FE2F00CE5123 /* ptt-enhance.js */,
-				FA66328C3081FE2F00CE5123 /* settings.js */,
-				FA66328D3081FE2F00CE5123 /* options.css */,
+				FAB2F46530820104005F381A /* ptt-theme.css */,
+				FAB2F46630820104005F381A /* options.js */,
+				FAB2F46730820104005F381A /* settings-schema.js */,
+				FAB2F46830820104005F381A /* icons */,
+				FAB2F46930820104005F381A /* manifest.json */,
+				FAB2F46A30820104005F381A /* options.html */,
+				FAB2F46B30820104005F381A /* ptt-enhance.js */,
+				FAB2F46C30820104005F381A /* fonts */,
+				FAB2F46D30820104005F381A /* settings.js */,
+				FAB2F46E30820104005F381A /* options.css */,
 			);
 			name = Resources;
 			path = "PTT 閱讀改版 Extension";
@@ -161,143 +164,144 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FA6632573081FE2E00CE5123 /* PTT 閱讀改版 */ = {
+		FAB2F43730820103005F381A /* PTT 閱讀改版 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FA6632813081FE2F00CE5123 /* Build configuration list for PBXNativeTarget "PTT 閱讀改版" */;
+			buildConfigurationList = FAB2F46130820104005F381A /* Build configuration list for PBXNativeTarget "PTT 閱讀改版" */;
 			buildPhases = (
-				FA6632543081FE2E00CE5123 /* Sources */,
-				FA6632553081FE2E00CE5123 /* Frameworks */,
-				FA6632563081FE2E00CE5123 /* Resources */,
-				FA6632803081FE2F00CE5123 /* Embed Foundation Extensions */,
+				FAB2F43430820103005F381A /* Sources */,
+				FAB2F43530820103005F381A /* Frameworks */,
+				FAB2F43630820103005F381A /* Resources */,
+				FAB2F46030820104005F381A /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				FA6632763081FE2F00CE5123 /* PBXTargetDependency */,
+				FAB2F45630820104005F381A /* PBXTargetDependency */,
 			);
 			name = "PTT 閱讀改版";
 			productName = "PTT 閱讀改版";
-			productReference = FA6632583081FE2E00CE5123 /* PTT 閱讀改版.app */;
+			productReference = FAB2F43830820103005F381A /* PTT 閱讀改版.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FA6632723081FE2F00CE5123 /* PTT 閱讀改版 Extension */ = {
+		FAB2F45230820104005F381A /* PTT 閱讀改版 Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FA66327D3081FE2F00CE5123 /* Build configuration list for PBXNativeTarget "PTT 閱讀改版 Extension" */;
+			buildConfigurationList = FAB2F45D30820104005F381A /* Build configuration list for PBXNativeTarget "PTT 閱讀改版 Extension" */;
 			buildPhases = (
-				FA66326F3081FE2F00CE5123 /* Sources */,
-				FA6632703081FE2F00CE5123 /* Frameworks */,
-				FA6632713081FE2F00CE5123 /* Resources */,
+				FAB2F44F30820104005F381A /* Sources */,
+				FAB2F45030820104005F381A /* Frameworks */,
+				FAB2F45130820104005F381A /* Resources */,
 			);
 			buildRules = (
 			);
 			name = "PTT 閱讀改版 Extension";
 			productName = "PTT 閱讀改版 Extension";
-			productReference = FA6632733081FE2F00CE5123 /* PTT 閱讀改版 Extension.appex */;
+			productReference = FAB2F45330820104005F381A /* PTT 閱讀改版 Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		FA6632503081FE2E00CE5123 /* Project object */ = {
+		FAB2F43030820103005F381A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2710;
 				LastUpgradeCheck = 2710;
 				TargetAttributes = {
-					FA6632573081FE2E00CE5123 = {
+					FAB2F43730820103005F381A = {
 						CreatedOnToolsVersion = 27.1;
 					};
-					FA6632723081FE2F00CE5123 = {
+					FAB2F45230820104005F381A = {
 						CreatedOnToolsVersion = 27.1;
 					};
 				};
 			};
-			buildConfigurationList = FA6632533081FE2E00CE5123 /* Build configuration list for PBXProject "PTT 閱讀改版" */;
+			buildConfigurationList = FAB2F43330820103005F381A /* Build configuration list for PBXProject "PTT 閱讀改版" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = FA66324F3081FE2E00CE5123;
+			mainGroup = FAB2F42F30820103005F381A;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = FA6632593081FE2E00CE5123 /* Products */;
+			productRefGroup = FAB2F43930820103005F381A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FA6632573081FE2E00CE5123 /* PTT 閱讀改版 */,
-				FA6632723081FE2F00CE5123 /* PTT 閱讀改版 Extension */,
+				FAB2F43730820103005F381A /* PTT 閱讀改版 */,
+				FAB2F45230820104005F381A /* PTT 閱讀改版 Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		FA6632563081FE2E00CE5123 /* Resources */ = {
+		FAB2F43630820103005F381A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
-				FA6632623081FE2E00CE5123 /* Icon.png in Resources */,
-				FA66326B3081FE2E00CE5123 /* Main.storyboard in Resources */,
-				FA6632663081FE2E00CE5123 /* Script.js in Resources */,
-				FA6632603081FE2E00CE5123 /* Main.html in Resources */,
-				FA66326D3081FE2F00CE5123 /* Assets.xcassets in Resources */,
-				FA6632643081FE2E00CE5123 /* Style.css in Resources */,
+				FAB2F44230820103005F381A /* Icon.png in Resources */,
+				FAB2F44B30820103005F381A /* Main.storyboard in Resources */,
+				FAB2F44630820103005F381A /* Script.js in Resources */,
+				FAB2F44030820103005F381A /* Main.html in Resources */,
+				FAB2F44D30820103005F381A /* Assets.xcassets in Resources */,
+				FAB2F44430820103005F381A /* Style.css in Resources */,
 			);
 		};
-		FA6632713081FE2F00CE5123 /* Resources */ = {
+		FAB2F45130820104005F381A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
-				FA66328E3081FE2F00CE5123 /* ptt-theme.css in Resources */,
-				FA6632913081FE2F00CE5123 /* icons in Resources */,
-				FA6632963081FE2F00CE5123 /* options.css in Resources */,
-				FA6632923081FE2F00CE5123 /* manifest.json in Resources */,
-				FA6632903081FE2F00CE5123 /* settings-schema.js in Resources */,
-				FA66328F3081FE2F00CE5123 /* options.js in Resources */,
-				FA6632933081FE2F00CE5123 /* options.html in Resources */,
-				FA6632943081FE2F00CE5123 /* ptt-enhance.js in Resources */,
-				FA6632953081FE2F00CE5123 /* settings.js in Resources */,
+				FAB2F46F30820104005F381A /* ptt-theme.css in Resources */,
+				FAB2F47230820104005F381A /* icons in Resources */,
+				FAB2F47830820104005F381A /* options.css in Resources */,
+				FAB2F47730820104005F381A /* settings.js in Resources */,
+				FAB2F47330820104005F381A /* manifest.json in Resources */,
+				FAB2F47130820104005F381A /* settings-schema.js in Resources */,
+				FAB2F47030820104005F381A /* options.js in Resources */,
+				FAB2F47430820104005F381A /* options.html in Resources */,
+				FAB2F47530820104005F381A /* ptt-enhance.js in Resources */,
+				FAB2F47630820104005F381A /* fonts in Resources */,
 			);
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		FA6632543081FE2E00CE5123 /* Sources */ = {
+		FAB2F43430820103005F381A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
-				FA6632683081FE2E00CE5123 /* ViewController.swift in Sources */,
-				FA66325C3081FE2E00CE5123 /* AppDelegate.swift in Sources */,
+				FAB2F44830820103005F381A /* ViewController.swift in Sources */,
+				FAB2F43C30820103005F381A /* AppDelegate.swift in Sources */,
 			);
 		};
-		FA66326F3081FE2F00CE5123 /* Sources */ = {
+		FAB2F44F30820104005F381A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
-				FA6632793081FE2F00CE5123 /* SafariWebExtensionHandler.swift in Sources */,
+				FAB2F45930820104005F381A /* SafariWebExtensionHandler.swift in Sources */,
 			);
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		FA6632763081FE2F00CE5123 /* PBXTargetDependency */ = {
+		FAB2F45630820104005F381A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FA6632723081FE2F00CE5123 /* PTT 閱讀改版 Extension */;
-			targetProxy = FA6632753081FE2F00CE5123 /* PBXContainerItemProxy */;
+			target = FAB2F45230820104005F381A /* PTT 閱讀改版 Extension */;
+			targetProxy = FAB2F45530820104005F381A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		FA66325E3081FE2E00CE5123 /* Main.html */ = {
+		FAB2F43E30820103005F381A /* Main.html */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FA66325F3081FE2E00CE5123 /* Base */,
+				FAB2F43F30820103005F381A /* Base */,
 			);
 			name = Main.html;
 			sourceTree = "<group>";
 		};
-		FA6632693081FE2E00CE5123 /* Main.storyboard */ = {
+		FAB2F44930820103005F381A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FA66326A3081FE2E00CE5123 /* Base */,
+				FAB2F44A30820103005F381A /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -305,7 +309,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		FA66327B3081FE2F00CE5123 /* Debug configuration for PBXProject "PTT 閱讀改版" */ = {
+		FAB2F45B30820104005F381A /* Debug configuration for PBXProject "PTT 閱讀改版" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -368,7 +372,7 @@
 			};
 			name = Debug;
 		};
-		FA66327C3081FE2F00CE5123 /* Release configuration for PBXProject "PTT 閱讀改版" */ = {
+		FAB2F45C30820104005F381A /* Release configuration for PBXProject "PTT 閱讀改版" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -423,7 +427,7 @@
 			};
 			name = Release;
 		};
-		FA66327E3081FE2F00CE5123 /* Debug configuration for PBXNativeTarget "PTT 閱讀改版 Extension" */ = {
+		FAB2F45E30820104005F381A /* Debug configuration for PBXNativeTarget "PTT 閱讀改版 Extension" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -457,7 +461,7 @@
 			};
 			name = Debug;
 		};
-		FA66327F3081FE2F00CE5123 /* Release configuration for PBXNativeTarget "PTT 閱讀改版 Extension" */ = {
+		FAB2F45F30820104005F381A /* Release configuration for PBXNativeTarget "PTT 閱讀改版 Extension" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -491,7 +495,7 @@
 			};
 			name = Release;
 		};
-		FA6632823081FE2F00CE5123 /* Debug configuration for PBXNativeTarget "PTT 閱讀改版" */ = {
+		FAB2F46230820104005F381A /* Debug configuration for PBXNativeTarget "PTT 閱讀改版" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -533,7 +537,7 @@
 			};
 			name = Debug;
 		};
-		FA6632833081FE2F00CE5123 /* Release configuration for PBXNativeTarget "PTT 閱讀改版" */ = {
+		FAB2F46330820104005F381A /* Release configuration for PBXNativeTarget "PTT 閱讀改版" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -578,32 +582,32 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FA6632533081FE2E00CE5123 /* Build configuration list for PBXProject "PTT 閱讀改版" */ = {
+		FAB2F43330820103005F381A /* Build configuration list for PBXProject "PTT 閱讀改版" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FA66327B3081FE2F00CE5123 /* Debug configuration for PBXProject "PTT 閱讀改版" */,
-				FA66327C3081FE2F00CE5123 /* Release configuration for PBXProject "PTT 閱讀改版" */,
+				FAB2F45B30820104005F381A /* Debug configuration for PBXProject "PTT 閱讀改版" */,
+				FAB2F45C30820104005F381A /* Release configuration for PBXProject "PTT 閱讀改版" */,
 			);
 			defaultConfigurationName = Release;
 		};
-		FA66327D3081FE2F00CE5123 /* Build configuration list for PBXNativeTarget "PTT 閱讀改版 Extension" */ = {
+		FAB2F45D30820104005F381A /* Build configuration list for PBXNativeTarget "PTT 閱讀改版 Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FA66327E3081FE2F00CE5123 /* Debug configuration for PBXNativeTarget "PTT 閱讀改版 Extension" */,
-				FA66327F3081FE2F00CE5123 /* Release configuration for PBXNativeTarget "PTT 閱讀改版 Extension" */,
+				FAB2F45E30820104005F381A /* Debug configuration for PBXNativeTarget "PTT 閱讀改版 Extension" */,
+				FAB2F45F30820104005F381A /* Release configuration for PBXNativeTarget "PTT 閱讀改版 Extension" */,
 			);
 			defaultConfigurationName = Release;
 		};
-		FA6632813081FE2F00CE5123 /* Build configuration list for PBXNativeTarget "PTT 閱讀改版" */ = {
+		FAB2F46130820104005F381A /* Build configuration list for PBXNativeTarget "PTT 閱讀改版" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FA6632823081FE2F00CE5123 /* Debug configuration for PBXNativeTarget "PTT 閱讀改版" */,
-				FA6632833081FE2F00CE5123 /* Release configuration for PBXNativeTarget "PTT 閱讀改版" */,
+				FAB2F46230820104005F381A /* Debug configuration for PBXNativeTarget "PTT 閱讀改版" */,
+				FAB2F46330820104005F381A /* Release configuration for PBXNativeTarget "PTT 閱讀改版" */,
 			);
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = FA6632503081FE2E00CE5123 /* Project object */;
+	rootObject = FAB2F43030820103005F381A /* Project object */;
 	validationLevel = 1;
 }

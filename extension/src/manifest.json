@@ -22,6 +22,12 @@
     "page": "options.html"
   },
   "permissions": ["storage"],
+  "web_accessible_resources": [
+    {
+      "resources": ["fonts/*"],
+      "matches": ["https://www.ptt.cc/*"]
+    }
+  ],
   "content_scripts": [
     {
       "matches": ["https://www.ptt.cc/*"],
