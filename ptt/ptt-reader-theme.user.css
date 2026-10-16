@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           PTT 閱讀改版
 @namespace      ptt-reader-theme
-@version        1.7.0
+@version        1.8.0
 @homepageURL    https://github.com/turtle11311/web-userstyle
 @supportURL     https://github.com/turtle11311/web-userstyle/issues
 @updateURL      https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-reader-theme.user.css
@@ -854,6 +854,20 @@
   html body .ptt-quote-body .f6 { color: inherit; }
   html body .ptt-quote-body a .f6 { color: var(--accent); }
   html body .ptt-quote-body .ptt-quote-nested { color: var(--muted); }
+
+  /* 正文裡貼上的推文（userscript 包成 .ptt-pushquote）：跟引述框同一種「退到後面」的底色，
+     保留推文表格排版但不編樓層，第一則不需要上分隔線 */
+  html body .ptt-pushquote {
+    margin: .5em 0 .8em;
+    padding: .3em .9em .4em;
+    border-left: 3px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    white-space: normal;
+  }
+  html body .ptt-pushquote-head { padding: .1em 0 .25em; color: var(--muted); font-size: .72em; }
+  html body .ptt-pushquote .push { margin: 0; padding: .25em 0; font-size: .85em; }
+  html body .ptt-pushquote-head + .push { border-top: none; }
 
   /* 推文裡圖片連結的預覽：留在那則推文下面 */
   html body .ptt-push-embed { margin: .2em 0 .6em; max-width: 100%; }

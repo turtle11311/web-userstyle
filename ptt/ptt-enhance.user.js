@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PTT 閱讀增強
 // @namespace    ptt-reader-theme
-// @version      1.4.0
+// @version      1.5.0
 // @homepageURL  https://github.com/turtle11311/web-userstyle
 // @supportURL   https://github.com/turtle11311/web-userstyle/issues
 // @updateURL    https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-enhance.user.js
@@ -326,6 +326,41 @@
   const isQuoteLink = (n) => n?.nodeType === 1 && n.tagName === 'A' && !!n.querySelector(':scope > span.f6');
   const isEmbed = (n) => n?.nodeType === 1 && n.classList.contains('richcontent');
   const isBlank = (n) => n?.nodeType === 3 && !n.textContent.trim();
+  const isPush = (n) => n?.nodeType === 1 && n.classList.contains('push');
+
+  // ───────────── 正文裡貼上的推文 ─────────────
+  //
+  // 作者常把別篇文章的推文貼進正文當例子，PTT 一樣把它們輸出成 .push。
+  // 真正的推文一定在「最後一個 ※ 發信站」之後；在那之前（簽名檔已經另外包起來）的 .push 都是正文的一部分：
+  // 不編樓層、不算原PO、不影響「連續推文」，連續的幾則包成一個「引用的推文」框。
+  if (lastFrom) {
+    const kids = [...main.childNodes];
+    const end = kids.indexOf(lastFrom);
+    for (let i = 0; i < end;) {
+      if (!isPush(kids[i])) { i++; continue; }
+      const run = [];
+      while (i < end) {
+        const k = kids[i];
+        if (isPush(k) || isEmbed(k)) { run.push(k); i++; continue; }
+        if (isBlank(k) && (isPush(kids[i + 1]) || isEmbed(kids[i + 1]))) { run.push(k); i++; continue; }
+        break;
+      }
+      const pushes = run.filter(isPush);
+      const box = el('div', 'ptt-pushquote');
+      box.append(el('div', 'ptt-pushquote-head', `引用的推文 · ${pushes.length} 則`));
+      main.insertBefore(box, run[0]);
+      box.append(...run);
+      pushes.forEach((p) => {
+        p.classList.add('ptt-body-push');
+        const uid = p.querySelector('.push-userid')?.textContent.trim();
+        if (uid) { p.dataset.uid = uid; p.style.setProperty('--uid-hue', hueOf(uid)); }
+        const tag = p.querySelector('.push-tag')?.textContent.trim();
+        p.classList.add(tag === '推' ? 'push-up' : tag === '噓' ? 'push-down' : 'push-arrow');
+      });
+      const next = box.nextSibling;
+      if (next?.nodeType === 3) next.textContent = next.textContent.replace(/^\n/, '');
+    }
+  }
 
   {
     const kids = [...main.childNodes];
