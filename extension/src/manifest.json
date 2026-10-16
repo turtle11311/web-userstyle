@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "PTT 閱讀改版",
+  "version": "0.0.0",
+  "description": "PTT 網頁版：自訂等寬字體、卡片式清單、置中閱讀欄、推文依 ID 上色、標出原PO、整理引述與發信站。",
+  "homepage_url": "https://github.com/turtle11311/web-userstyle",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "PTT 閱讀改版設定",
+    "default_popup": "options.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html"
+  },
+  "permissions": ["storage"],
+  "web_accessible_resources": [
+    {
+      "resources": ["fonts/*"],
+      "matches": ["https://www.ptt.cc/*"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.ptt.cc/*"],
+      "css": ["ptt-theme.css"],
+      "js": ["settings-schema.js", "settings.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://www.ptt.cc/bbs/*", "https://www.ptt.cc/cls/*"],
+      "js": ["ptt-enhance.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
