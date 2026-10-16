@@ -12,6 +12,8 @@
 點「安裝」會開啟 raw 檔案，Stylus / Violentmonkey 會自動跳出安裝頁。
 每個檔案都有 `@updateURL`，之後改版只要調高 `@version` 再 push，擴充功能會自動檢查更新。
 
+PTT 的樣式和腳本也可以包成獨立的 Chrome / Safari 擴充功能，見 [`extension/`](extension/README.md)。
+
 ## PTT
 
 ### PTT 閱讀改版（Stylus）
