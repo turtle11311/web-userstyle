@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PTT 閱讀增強
 // @namespace    ptt-reader-theme
-// @version      1.6.1
+// @version      1.6.2
 // @homepageURL  https://github.com/turtle11311/web-userstyle
 // @supportURL   https://github.com/turtle11311/web-userstyle/issues
 // @updateURL    https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-enhance.user.js
@@ -326,6 +326,8 @@
   const isQuoteLink = (n) => n?.nodeType === 1 && n.tagName === 'A' && !!n.querySelector(':scope > span.f6');
   const isEmbed = (n) => n?.nodeType === 1 && n.classList.contains('richcontent');
   const isBlank = (n) => n?.nodeType === 3 && !n.textContent.trim();
+  // 被引述原文裡的空行只剩一個「:」，後面沒有空白，PTT 不會把它標成 .f6，所以是純文字
+  const isBareColon = (n) => n?.nodeType === 3 && /^:[ \t]*\n?$/.test(n.textContent);
   const isPush = (n) => n?.nodeType === 1 && n.classList.contains('push');
 
   // ───────────── 正文裡貼上的推文 ─────────────
@@ -451,11 +453,12 @@
       while (i < end) {
         const k = kids[i];
         if (isQuoteLine(k) || isQuoteLink(k) || isEmbed(k)) { run.push(k); i++; continue; }
+        if (isBareColon(k)) { run.push(k); i++; continue; }   // 只在引述進行中才接受，不會當成開頭
         if (isBlank(k) && (isQuoteLine(kids[i + 1]) || isQuoteLink(kids[i + 1]) || isEmbed(kids[i + 1]))) { run.push(k); i++; continue; }
         break;
       }
 
-      const lines = run.filter(isQuoteLine).length;
+      const lines = run.filter((k) => isQuoteLine(k) || isBareColon(k)).length;
       const box = el('details', 'ptt-quote');
       box.open = lines <= QUOTE_OPEN_MAX_LINES;
       if (quotedId) box.style.setProperty('--uid-hue', hueOf(quotedId));
@@ -467,6 +470,7 @@
 
       // 每行去掉一層「: 」；還剩「:」開頭的是引述中的引述，標成較淡的顏色
       run.forEach((k) => {
+        if (isBareColon(k)) { k.textContent = k.textContent.replace(/^:[ \t]*/, ''); return; }
         if (!isQuoteLine(k)) return;
         k.textContent = k.textContent.replace(/^: ?/, '');
         if (k.textContent.startsWith(':')) k.classList.add('ptt-quote-nested');
