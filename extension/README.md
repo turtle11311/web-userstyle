@@ -51,10 +51,15 @@ node extension/build.mjs
 xcodebuild -project "extension/safari/PTT 閱讀改版/PTT 閱讀改版.xcodeproj" -scheme "PTT 閱讀改版" -derivedDataPath "extension/safari/PTT 閱讀改版/build" CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= build
 ```
 
-或直接在 Xcode 按 Run。`CODE_SIGN_IDENTITY=-` 是 ad-hoc 簽章，自己這台用就夠。
+`CODE_SIGN_IDENTITY=-` 是 ad-hoc 簽章，自己這台用就夠。build 完複製到 `~/Applications` 再打開一次——
+App 放在 build 資料夾裡，Safari 雖然註冊得到（`pluginkit` 看得到），延伸功能清單卻不會列出來：
 
-- 啟用：打開一次 build 出來的 `PTT 閱讀改版.app` 讓 Safari 註冊 → Safari「設定 › 進階」勾「顯示網頁開發者功能」→「開發」選單勾「允許未簽署的延伸功能」→「設定 › 延伸功能」勾選並允許 www.ptt.cc
-- 「允許未簽署的延伸功能」每次重開 Safari 都會被取消，要重勾；不想每次勾就得用 Apple Developer 帳號簽章
+```bash
+ditto "extension/safari/PTT 閱讀改版/build/Build/Products/Debug/PTT 閱讀改版.app" ~/Applications/"PTT 閱讀改版.app" && open ~/Applications/"PTT 閱讀改版.app"
+```
+
+- 啟用（順序要對）：完整結束 Safari（⌘Q）再打開 →「設定 › 進階」勾「顯示網頁開發者功能」→「設定 › 開發者」分頁勾「允許未簽署的延伸功能」（Safari 26 起在這裡，不在「開發」選單）→「設定 › 延伸功能」勾選並允許 www.ptt.cc
+- 「允許未簽署的延伸功能」每次結束 Safari 都會被取消，要重勾；不想每次勾就得用 Apple Developer 帳號簽章
 - `dist/` **多了新檔案**時要在 Xcode 把它加進 Extension target 的 Resources（只改內容不用）
 - 重新轉換專案（例如改了 manifest 結構）：
 
