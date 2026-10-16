@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PTT 閱讀增強
 // @namespace    ptt-reader-theme
-// @version      1.5.0
+// @version      1.6.0
 // @homepageURL  https://github.com/turtle11311/web-userstyle
 // @supportURL   https://github.com/turtle11311/web-userstyle/issues
 // @updateURL    https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-enhance.user.js
@@ -333,6 +333,66 @@
   // 作者常把別篇文章的推文貼進正文當例子，PTT 一樣把它們輸出成 .push。
   // 真正的推文一定在「最後一個 ※ 發信站」之後；在那之前（簽名檔已經另外包起來）的 .push 都是正文的一部分：
   // 不編樓層、不算原PO、不影響「連續推文」，連續的幾則包成一個「引用的推文」框。
+  //
+  // 另外一種情況：作者複製推文時 ANSI 顏色碼沒帶過來，PTT 就認不出那是推文，只剩純文字。
+  // 這裡用文字格式逐行比對（推/噓/→ + ID + 冒號 + 內容 + IP? + 日期），轉成跟 PTT 同結構的 .push。
+  // 條件故意訂嚴：ID 2～12 個英數字、行尾一定要有日期，一般正文幾乎不會剛好長這樣。
+  const PUSH_LINE = /^(推|噓|→) ?([A-Za-z0-9_]{2,12}) *: ?(.*?) *((?:\d{1,3}\.){3}\d{1,3} +)?(\d\d\/\d\d(?: \d\d:\d\d)?) *$/d;
+
+  // 把 [start, end) 這段字元範圍內的節點取出來：文字節點切片，元素（<a> 等）整個帶走
+  const sliceNodes = (nodes, start, end) => {
+    const out = [];
+    let pos = 0;
+    for (const n of nodes) {
+      const len = n.textContent.length, s = pos, e = pos + len;
+      pos = e;
+      if (e <= start || s >= end) continue;
+      out.push(n.nodeType === 3
+        ? document.createTextNode(n.textContent.slice(Math.max(0, start - s), Math.min(len, end - s)))
+        : n);
+    }
+    return out;
+  };
+
+  if (lastFrom) {
+    // 先把正文的文字節點在每個換行處切開，讓「一行」可以由幾個節點組成（文字 + 連結 + 文字）
+    for (let n = main.firstChild; n && n !== lastFrom; n = n.nextSibling) {
+      if (n.nodeType !== 3) continue;
+      const at = n.textContent.indexOf('\n');
+      if (at !== -1 && at < n.textContent.length - 1) n.splitText(at + 1);
+    }
+    // 逐行比對
+    let line = [];
+    const flush = () => {
+      const nodes = line;
+      line = [];
+      if (!nodes.length) return;
+      const text = nodes.map((n) => n.textContent).join('').replace(/\n$/, '');
+      const m = text.match(PUSH_LINE);
+      if (!m) return;
+      const [cStart, cEnd] = m.indices[3];
+      const push = el('div', 'push');
+      push.append(
+        el('span', `${m[1] === '推' ? '' : 'f1 '}hl push-tag`, `${m[1]} `),
+        el('span', 'f3 hl push-userid', m[2]),
+      );
+      const content = el('span', 'f3 push-content', ': ');
+      content.append(...sliceNodes(nodes, cStart, cEnd));
+      push.append(content, el('span', 'push-ipdatetime', ` ${(m[4] || '')}${m[5]}`));
+      main.insertBefore(push, nodes[0]);
+      nodes.forEach((n) => { if (n.parentNode === main) n.remove(); });
+    };
+    for (let n = main.firstChild; n && n !== lastFrom;) {
+      const next = n.nextSibling;
+      const inline = n.nodeType === 3 || /^(A|SPAN)$/.test(n.tagName);
+      if (!inline) { flush(); n = next; continue; }
+      line.push(n);
+      if (n.nodeType === 3 && n.textContent.endsWith('\n')) flush();
+      n = next;
+    }
+    flush();
+  }
+
   if (lastFrom) {
     const kids = [...main.childNodes];
     const end = kids.indexOf(lastFrom);
