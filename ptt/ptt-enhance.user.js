@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PTT 閱讀增強
 // @namespace    ptt-reader-theme
-// @version      1.6.0
+// @version      1.6.1
 // @homepageURL  https://github.com/turtle11311/web-userstyle
 // @supportURL   https://github.com/turtle11311/web-userstyle/issues
 // @updateURL    https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-enhance.user.js
@@ -402,7 +402,9 @@
       while (i < end) {
         const k = kids[i];
         if (isPush(k) || isEmbed(k)) { run.push(k); i++; continue; }
-        if (isBlank(k) && (isPush(kids[i + 1]) || isEmbed(kids[i + 1]))) { run.push(k); i++; continue; }
+        // 推文和推文之間本來沒有文字節點；夾著一個空白文字節點，代表原文在這裡空了一行，
+        // 是作者分開的兩組例子，所以斷開成不同的框。圖片預覽前的換行則照樣收進來。
+        if (isBlank(k) && isEmbed(kids[i + 1])) { run.push(k); i++; continue; }
         break;
       }
       const pushes = run.filter(isPush);
