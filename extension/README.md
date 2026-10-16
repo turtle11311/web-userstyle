@@ -41,12 +41,28 @@ node extension/build.mjs
 
 需要完整的 Xcode（不是只有 Command Line Tools）。
 
+Xcode 專案已經轉好放在 `extension/safari/`，用相對路徑**參照** `dist/` 裡的檔案（不是複製），所以平常只要：
+
 ```bash
-xcrun safari-web-extension-converter extension/dist --project-location extension/safari --app-name "PTT 閱讀改版" --bundle-identifier io.github.turtle11311.ptt-reader --macos-only
+node extension/build.mjs
 ```
 
-- 轉換器預設是**參照** `dist/` 而不是複製，所以之後只要重跑 build，再在 Xcode 按 Run 就會吃到新版
-- 第一次跑：Xcode 選 macOS target → Run → Safari「設定 › 進階」勾「在選單列中顯示開發功能」→「開發」選單勾「允許未簽署的延伸功能」→「設定 › 延伸功能」啟用
+```bash
+xcodebuild -project "extension/safari/PTT 閱讀改版/PTT 閱讀改版.xcodeproj" -scheme "PTT 閱讀改版" -derivedDataPath "extension/safari/PTT 閱讀改版/build" CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= build
+```
+
+或直接在 Xcode 按 Run。`CODE_SIGN_IDENTITY=-` 是 ad-hoc 簽章，自己這台用就夠。
+
+- 啟用：打開一次 build 出來的 `PTT 閱讀改版.app` 讓 Safari 註冊 → Safari「設定 › 進階」勾「顯示網頁開發者功能」→「開發」選單勾「允許未簽署的延伸功能」→「設定 › 延伸功能」勾選並允許 www.ptt.cc
+- 「允許未簽署的延伸功能」每次重開 Safari 都會被取消，要重勾；不想每次勾就得用 Apple Developer 帳號簽章
+- `dist/` **多了新檔案**時要在 Xcode 把它加進 Extension target 的 Resources（只改內容不用）
+- 重新轉換專案（例如改了 manifest 結構）：
+
+  ```bash
+  xcrun safari-web-extension-converter extension/dist --project-location extension/safari --app-name "PTT 閱讀改版" --bundle-identifier io.github.turtle11311.ptt-reader --macos-only --no-open --force
+  ```
+
+  轉換器會把中文 App 名稱轉成 `io.github.turtle11311.PTT-----` 當 App 的 bundle ID，跟 Extension 的 `io.github.turtle11311.ptt-reader.Extension` 對不上會 build 失敗；轉完要把 `project.pbxproj` 裡的 `PTT-----` 改回 `ptt-reader`。
 - 要上架或給別人裝才需要 Apple Developer 帳號（年費）；自己用不必
 
 ### Safari 要注意

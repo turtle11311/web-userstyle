@@ -1,0 +1,609 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 110;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FA66325C3081FE2E00CE5123 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA66325B3081FE2E00CE5123 /* AppDelegate.swift */; };
+		FA6632603081FE2E00CE5123 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = FA66325E3081FE2E00CE5123 /* Main.html */; };
+		FA6632623081FE2E00CE5123 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FA6632613081FE2E00CE5123 /* Icon.png */; };
+		FA6632643081FE2E00CE5123 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = FA6632633081FE2E00CE5123 /* Style.css */; };
+		FA6632663081FE2E00CE5123 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = FA6632653081FE2E00CE5123 /* Script.js */; };
+		FA6632683081FE2E00CE5123 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6632673081FE2E00CE5123 /* ViewController.swift */; };
+		FA66326B3081FE2E00CE5123 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6632693081FE2E00CE5123 /* Main.storyboard */; };
+		FA66326D3081FE2F00CE5123 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA66326C3081FE2F00CE5123 /* Assets.xcassets */; };
+		FA6632743081FE2F00CE5123 /* PTT 閱讀改版 Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FA6632733081FE2F00CE5123 /* PTT 閱讀改版 Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FA6632793081FE2F00CE5123 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6632783081FE2F00CE5123 /* SafariWebExtensionHandler.swift */; };
+		FA66328E3081FE2F00CE5123 /* ptt-theme.css in Resources */ = {isa = PBXBuildFile; fileRef = FA6632853081FE2F00CE5123 /* ptt-theme.css */; };
+		FA66328F3081FE2F00CE5123 /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = FA6632863081FE2F00CE5123 /* options.js */; };
+		FA6632903081FE2F00CE5123 /* settings-schema.js in Resources */ = {isa = PBXBuildFile; fileRef = FA6632873081FE2F00CE5123 /* settings-schema.js */; };
+		FA6632913081FE2F00CE5123 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = FA6632883081FE2F00CE5123 /* icons */; };
+		FA6632923081FE2F00CE5123 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = FA6632893081FE2F00CE5123 /* manifest.json */; };
+		FA6632933081FE2F00CE5123 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = FA66328A3081FE2F00CE5123 /* options.html */; };
+		FA6632943081FE2F00CE5123 /* ptt-enhance.js in Resources */ = {isa = PBXBuildFile; fileRef = FA66328B3081FE2F00CE5123 /* ptt-enhance.js */; };
+		FA6632953081FE2F00CE5123 /* settings.js in Resources */ = {isa = PBXBuildFile; fileRef = FA66328C3081FE2F00CE5123 /* settings.js */; };
+		FA6632963081FE2F00CE5123 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = FA66328D3081FE2F00CE5123 /* options.css */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FA6632753081FE2F00CE5123 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA6632503081FE2E00CE5123 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA6632723081FE2F00CE5123;
+			remoteInfo = "PTT 閱讀改版 Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FA6632803081FE2F00CE5123 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				FA6632743081FE2F00CE5123 /* PTT 閱讀改版 Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		FA6632583081FE2E00CE5123 /* PTT 閱讀改版.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PTT 閱讀改版.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA66325B3081FE2E00CE5123 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FA66325F3081FE2E00CE5123 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		FA6632613081FE2E00CE5123 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		FA6632633081FE2E00CE5123 /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		FA6632653081FE2E00CE5123 /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		FA6632673081FE2E00CE5123 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FA66326A3081FE2E00CE5123 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FA66326C3081FE2F00CE5123 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FA66326E3081FE2F00CE5123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA6632733081FE2F00CE5123 /* PTT 閱讀改版 Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "PTT 閱讀改版 Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA6632783081FE2F00CE5123 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		FA66327A3081FE2F00CE5123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA6632853081FE2F00CE5123 /* ptt-theme.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = "ptt-theme.css"; path = "../../../dist/ptt-theme.css"; sourceTree = "<group>"; };
+		FA6632863081FE2F00CE5123 /* options.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = options.js; path = ../../../dist/options.js; sourceTree = "<group>"; };
+		FA6632873081FE2F00CE5123 /* settings-schema.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "settings-schema.js"; path = "../../../dist/settings-schema.js"; sourceTree = "<group>"; };
+		FA6632883081FE2F00CE5123 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../dist/icons; sourceTree = "<group>"; };
+		FA6632893081FE2F00CE5123 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../dist/manifest.json; sourceTree = "<group>"; };
+		FA66328A3081FE2F00CE5123 /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../../dist/options.html; sourceTree = "<group>"; };
+		FA66328B3081FE2F00CE5123 /* ptt-enhance.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "ptt-enhance.js"; path = "../../../dist/ptt-enhance.js"; sourceTree = "<group>"; };
+		FA66328C3081FE2F00CE5123 /* settings.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = settings.js; path = ../../../dist/settings.js; sourceTree = "<group>"; };
+		FA66328D3081FE2F00CE5123 /* options.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = options.css; path = ../../../dist/options.css; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FA6632553081FE2E00CE5123 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		FA6632703081FE2F00CE5123 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FA66324F3081FE2E00CE5123 = {
+			isa = PBXGroup;
+			children = (
+				FA66325A3081FE2E00CE5123 /* PTT 閱讀改版 */,
+				FA6632773081FE2F00CE5123 /* PTT 閱讀改版 Extension */,
+				FA6632593081FE2E00CE5123 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FA6632593081FE2E00CE5123 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA6632583081FE2E00CE5123 /* PTT 閱讀改版.app */,
+				FA6632733081FE2F00CE5123 /* PTT 閱讀改版 Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FA66325A3081FE2E00CE5123 /* PTT 閱讀改版 */ = {
+			isa = PBXGroup;
+			children = (
+				FA66325B3081FE2E00CE5123 /* AppDelegate.swift */,
+				FA6632673081FE2E00CE5123 /* ViewController.swift */,
+				FA6632693081FE2E00CE5123 /* Main.storyboard */,
+				FA66326C3081FE2F00CE5123 /* Assets.xcassets */,
+				FA66326E3081FE2F00CE5123 /* Info.plist */,
+				FA66325D3081FE2E00CE5123 /* Resources */,
+			);
+			path = "PTT 閱讀改版";
+			sourceTree = "<group>";
+		};
+		FA66325D3081FE2E00CE5123 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FA66325E3081FE2E00CE5123 /* Main.html */,
+				FA6632613081FE2E00CE5123 /* Icon.png */,
+				FA6632633081FE2E00CE5123 /* Style.css */,
+				FA6632653081FE2E00CE5123 /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		FA6632773081FE2F00CE5123 /* PTT 閱讀改版 Extension */ = {
+			isa = PBXGroup;
+			children = (
+				FA6632843081FE2F00CE5123 /* Resources */,
+				FA6632783081FE2F00CE5123 /* SafariWebExtensionHandler.swift */,
+				FA66327A3081FE2F00CE5123 /* Info.plist */,
+			);
+			path = "PTT 閱讀改版 Extension";
+			sourceTree = "<group>";
+		};
+		FA6632843081FE2F00CE5123 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FA6632853081FE2F00CE5123 /* ptt-theme.css */,
+				FA6632863081FE2F00CE5123 /* options.js */,
+				FA6632873081FE2F00CE5123 /* settings-schema.js */,
+				FA6632883081FE2F00CE5123 /* icons */,
+				FA6632893081FE2F00CE5123 /* manifest.json */,
+				FA66328A3081FE2F00CE5123 /* options.html */,
+				FA66328B3081FE2F00CE5123 /* ptt-enhance.js */,
+				FA66328C3081FE2F00CE5123 /* settings.js */,
+				FA66328D3081FE2F00CE5123 /* options.css */,
+			);
+			name = Resources;
+			path = "PTT 閱讀改版 Extension";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FA6632573081FE2E00CE5123 /* PTT 閱讀改版 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA6632813081FE2F00CE5123 /* Build configuration list for PBXNativeTarget "PTT 閱讀改版" */;
+			buildPhases = (
+				FA6632543081FE2E00CE5123 /* Sources */,
+				FA6632553081FE2E00CE5123 /* Frameworks */,
+				FA6632563081FE2E00CE5123 /* Resources */,
+				FA6632803081FE2F00CE5123 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FA6632763081FE2F00CE5123 /* PBXTargetDependency */,
+			);
+			name = "PTT 閱讀改版";
+			productName = "PTT 閱讀改版";
+			productReference = FA6632583081FE2E00CE5123 /* PTT 閱讀改版.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FA6632723081FE2F00CE5123 /* PTT 閱讀改版 Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA66327D3081FE2F00CE5123 /* Build configuration list for PBXNativeTarget "PTT 閱讀改版 Extension" */;
+			buildPhases = (
+				FA66326F3081FE2F00CE5123 /* Sources */,
+				FA6632703081FE2F00CE5123 /* Frameworks */,
+				FA6632713081FE2F00CE5123 /* Resources */,
+			);
+			buildRules = (
+			);
+			name = "PTT 閱讀改版 Extension";
+			productName = "PTT 閱讀改版 Extension";
+			productReference = FA6632733081FE2F00CE5123 /* PTT 閱讀改版 Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FA6632503081FE2E00CE5123 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2710;
+				LastUpgradeCheck = 2710;
+				TargetAttributes = {
+					FA6632573081FE2E00CE5123 = {
+						CreatedOnToolsVersion = 27.1;
+					};
+					FA6632723081FE2F00CE5123 = {
+						CreatedOnToolsVersion = 27.1;
+					};
+				};
+			};
+			buildConfigurationList = FA6632533081FE2E00CE5123 /* Build configuration list for PBXProject "PTT 閱讀改版" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FA66324F3081FE2E00CE5123;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = FA6632593081FE2E00CE5123 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FA6632573081FE2E00CE5123 /* PTT 閱讀改版 */,
+				FA6632723081FE2F00CE5123 /* PTT 閱讀改版 Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FA6632563081FE2E00CE5123 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+				FA6632623081FE2E00CE5123 /* Icon.png in Resources */,
+				FA66326B3081FE2E00CE5123 /* Main.storyboard in Resources */,
+				FA6632663081FE2E00CE5123 /* Script.js in Resources */,
+				FA6632603081FE2E00CE5123 /* Main.html in Resources */,
+				FA66326D3081FE2F00CE5123 /* Assets.xcassets in Resources */,
+				FA6632643081FE2E00CE5123 /* Style.css in Resources */,
+			);
+		};
+		FA6632713081FE2F00CE5123 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+				FA66328E3081FE2F00CE5123 /* ptt-theme.css in Resources */,
+				FA6632913081FE2F00CE5123 /* icons in Resources */,
+				FA6632963081FE2F00CE5123 /* options.css in Resources */,
+				FA6632923081FE2F00CE5123 /* manifest.json in Resources */,
+				FA6632903081FE2F00CE5123 /* settings-schema.js in Resources */,
+				FA66328F3081FE2F00CE5123 /* options.js in Resources */,
+				FA6632933081FE2F00CE5123 /* options.html in Resources */,
+				FA6632943081FE2F00CE5123 /* ptt-enhance.js in Resources */,
+				FA6632953081FE2F00CE5123 /* settings.js in Resources */,
+			);
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FA6632543081FE2E00CE5123 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+				FA6632683081FE2E00CE5123 /* ViewController.swift in Sources */,
+				FA66325C3081FE2E00CE5123 /* AppDelegate.swift in Sources */,
+			);
+		};
+		FA66326F3081FE2F00CE5123 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+				FA6632793081FE2F00CE5123 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FA6632763081FE2F00CE5123 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA6632723081FE2F00CE5123 /* PTT 閱讀改版 Extension */;
+			targetProxy = FA6632753081FE2F00CE5123 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FA66325E3081FE2E00CE5123 /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA66325F3081FE2E00CE5123 /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		FA6632693081FE2E00CE5123 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA66326A3081FE2E00CE5123 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FA66327B3081FE2F00CE5123 /* Debug configuration for PBXProject "PTT 閱讀改版" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.7;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FA66327C3081FE2F00CE5123 /* Release configuration for PBXProject "PTT 閱讀改版" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.7;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		FA66327E3081FE2F00CE5123 /* Debug configuration for PBXNativeTarget "PTT 閱讀改版 Extension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PTT 閱讀改版 Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "PTT 閱讀改版 Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.turtle11311.ptt-reader.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FA66327F3081FE2F00CE5123 /* Release configuration for PBXNativeTarget "PTT 閱讀改版 Extension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PTT 閱讀改版 Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "PTT 閱讀改版 Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.turtle11311.ptt-reader.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		FA6632823081FE2F00CE5123 /* Debug configuration for PBXNativeTarget "PTT 閱讀改版" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PTT 閱讀改版/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "PTT 閱讀改版";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				INFOPLIST_KEY_NSViewGestureRecognizerIsExclusive = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.turtle11311.ptt-reader";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FA6632833081FE2F00CE5123 /* Release configuration for PBXNativeTarget "PTT 閱讀改版" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PTT 閱讀改版/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "PTT 閱讀改版";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				INFOPLIST_KEY_NSViewGestureRecognizerIsExclusive = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.turtle11311.ptt-reader";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FA6632533081FE2E00CE5123 /* Build configuration list for PBXProject "PTT 閱讀改版" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA66327B3081FE2F00CE5123 /* Debug configuration for PBXProject "PTT 閱讀改版" */,
+				FA66327C3081FE2F00CE5123 /* Release configuration for PBXProject "PTT 閱讀改版" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		FA66327D3081FE2F00CE5123 /* Build configuration list for PBXNativeTarget "PTT 閱讀改版 Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA66327E3081FE2F00CE5123 /* Debug configuration for PBXNativeTarget "PTT 閱讀改版 Extension" */,
+				FA66327F3081FE2F00CE5123 /* Release configuration for PBXNativeTarget "PTT 閱讀改版 Extension" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		FA6632813081FE2F00CE5123 /* Build configuration list for PBXNativeTarget "PTT 閱讀改版" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA6632823081FE2F00CE5123 /* Debug configuration for PBXNativeTarget "PTT 閱讀改版" */,
+				FA6632833081FE2F00CE5123 /* Release configuration for PBXNativeTarget "PTT 閱讀改版" */,
+			);
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FA6632503081FE2E00CE5123 /* Project object */;
+	validationLevel = 1;
+}
