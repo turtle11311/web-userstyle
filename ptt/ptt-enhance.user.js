@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PTT 閱讀增強
 // @namespace    ptt-reader-theme
-// @version      1.6.2
+// @version      1.7.0
 // @homepageURL  https://github.com/turtle11311/web-userstyle
 // @supportURL   https://github.com/turtle11311/web-userstyle/issues
 // @updateURL    https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-enhance.user.js
@@ -320,7 +320,6 @@
   // 每一段連續的引述行包成一個可摺疊的 <details>；Re: 文常見「引述一段、回一段」，後面幾段標成「引述（續）」。
   // 只處理正文（發信站／第一則推文之前、簽名檔以外）。
 
-  const QUOTE_OPEN_MAX_LINES = 8;   // 超過這麼多行預設收合
   const QUOTE_HEAD = /^※ 引述\s*《\s*([^\s》(]+)[^》]*》\s*之銘言/;
   const isQuoteLine = (n) => n?.nodeType === 1 && n.matches('span.f6') && n.textContent.startsWith(':');
   const isQuoteLink = (n) => n?.nodeType === 1 && n.tagName === 'A' && !!n.querySelector(':scope > span.f6');
@@ -329,6 +328,142 @@
   // 被引述原文裡的空行只剩一個「:」，後面沒有空白，PTT 不會把它標成 .f6，所以是純文字
   const isBareColon = (n) => n?.nodeType === 3 && /^:[ \t]*\n?$/.test(n.textContent);
   const isPush = (n) => n?.nodeType === 1 && n.classList.contains('push');
+
+  // ── 整篇引述：在框裡遞迴套用文章結構（標頭 → 內文 → -- 與 ※ 發信站 → 推文）──
+  //
+  // 作者常把整篇原文連同推文一起引述。框裡如果找得到「標題」和「文章網址」，收合列做成預覽卡片，
+  // 原文的文末資訊省略、只留連結，原文推文轉成推文表格並另外收合；找不到就退回一般引述。
+  // 原文推文可能被節錄過，所以不編樓層。
+  const MONTHS = { Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6, Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12 };
+  const ARTICLE_URL = /https?:\/\/www\.ptt\.cc\/bbs\/([\w-]+)\/(M\.(\d+)\.A\.([0-9A-F]{3}))\.html/;
+  // 文章代碼（AID）：時間戳 << 12 | 隨機碼，用 0-9A-Za-z-_ 編成 8 碼，就是 PTT 上常見的「#1aJIaj3_」
+  const aidOf = (ts, rnd) => {
+    const A = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_';
+    let v = (BigInt(ts) << 12n) | BigInt(parseInt(rnd, 16));
+    let out = '';
+    for (let i = 0; i < 8; i++) { out = A[Number(v & 63n)] + out; v >>= 6n; }
+    return '#' + out;
+  };
+  const prettyCtime = (t) => {
+    const m = t?.match(/^\w{3} (\w{3}) +(\d{1,2}) [\d:]+ (\d{4})/);
+    return m ? `${m[3]}/${String(MONTHS[m[1]]).padStart(2, '0')}/${m[2].padStart(2, '0')}` : '';
+  };
+
+  const buildQuote = (run, { quotedId, label }) => {
+    // 切成「行」：每個引述行／只有冒號的空行開一行，後面的連結、影片預覽跟著同一行
+    const lines = [];
+    for (const k of run) {
+      if (isQuoteLine(k) || isBareColon(k)) { lines.push([k]); continue; }
+      if (isBlank(k)) continue;
+      if (lines.length) lines.at(-1).push(k); else lines.push([k]);
+    }
+    // 切好行之後才去掉每行開頭那一層「: 」（切行要靠冒號判斷，順序不能反）；
+    // 還剩「:」開頭的是引述中的引述，標成較淡的顏色
+    lines.forEach(([first]) => {
+      if (isBareColon(first)) { first.textContent = first.textContent.replace(/^:[ \t]*/, ''); return; }
+      if (!isQuoteLine(first)) return;
+      first.textContent = first.textContent.replace(/^: ?/, '');
+      if (first.textContent.startsWith(':')) first.classList.add('ptt-quote-nested');
+    });
+    const textOf = (ln) => ln.filter((n) => !isEmbed(n)).map((n) => n.textContent).join('').replace(/\n+$/, '');
+
+    // 原文標頭
+    let title = '', ctime = '', author = '', i = 0, m;
+    for (; i < lines.length; i++) {
+      const t = textOf(lines[i]).trim();
+      if ((m = t.match(/^標題\s*[:：]\s*(.+)$/))) title = m[1].trim();
+      else if ((m = t.match(/^時間\s*[:：]\s*(.+)$/))) ctime = m[1].trim();
+      else if ((m = t.match(/^作者\s*[:：]\s*(\S+)/))) author = m[1];
+      else break;
+    }
+    const headerEnd = (title || ctime) ? i : 0;
+
+    // 原文文末：最後一個「※ 發信站」往前找「--」，往後吃掉連續的「※ …」行
+    const texts = lines.map(textOf);
+    let fromAt = -1;
+    for (let j = lines.length - 1; j >= headerEnd; j--) if (/^※ 發信站/.test(texts[j].trim())) { fromAt = j; break; }
+    let footStart = -1, footEnd = -1, url = null;
+    if (fromAt !== -1) {
+      footStart = fromAt;
+      for (let j = fromAt - 1; j >= Math.max(headerEnd, fromAt - 12); j--) if (texts[j].trim() === '--') { footStart = j; break; }
+      footEnd = fromAt;
+      while (footEnd + 1 < lines.length && /^※ /.test(texts[footEnd + 1].trim())) footEnd++;
+      for (let j = footStart; j <= footEnd; j++) {
+        const hit = texts[j].match(ARTICLE_URL)
+          || lines[j].map((n) => n.nodeType === 1 && n.tagName === 'A' ? n.getAttribute('href') || '' : '').join(' ').match(ARTICLE_URL);
+        if (hit) { url = hit; break; }
+      }
+    }
+
+    // 原文推文：文末之後符合推文格式的行
+    const quotedPushes = [];
+    const bodyLines = [];
+    lines.forEach((ln, j) => {
+      if (j < headerEnd) return;
+      if (footStart !== -1 && j >= footStart && j <= footEnd) return;
+      if (footEnd !== -1 && j > footEnd) {
+        const pm = texts[j].match(PUSH_LINE);
+        if (pm) {
+          const leaves = ln.flatMap((n) => (n.nodeType === 1 && n.matches('span.f6') ? [...n.childNodes] : [n]));
+          const push = pushFromLine(leaves, pm);
+          markBodyPush(push, 'ptt-quoted-push');
+          quotedPushes.push(push);
+          return;
+        }
+      }
+      bodyLines.push(ln);
+    });
+    while (bodyLines.length && !textOf(bodyLines[0]).trim() && !bodyLines[0].some(isEmbed)) bodyLines.shift();
+    while (bodyLines.length && !textOf(bodyLines.at(-1)).trim() && !bodyLines.at(-1).some(isEmbed)) bodyLines.pop();
+
+    const box = el('details', 'ptt-quote');
+    box.open = false;   // 一律預設收合，想看再點開
+    const who = quotedId || author;
+    if (who) box.style.setProperty('--uid-hue', hueOf(who));
+    const summary = el('summary', 'ptt-quote-head');
+
+    if (title && url) {
+      // 預覽卡片：標題是主角；第二行是誰、哪個板、哪天、多長；右邊另一顆按鈕開原文
+      summary.classList.add('is-card');
+      const card = el('span', 'ptt-quote-card');
+      card.append(el('span', 'ptt-quote-title', title));
+      const meta = el('span', 'ptt-quote-meta');
+      meta.append(`${label} `);
+      if (who) meta.append(uidChip(who));
+      const bits = [url[1], prettyCtime(ctime), `內文 ${bodyLines.length} 行`, quotedPushes.length ? `推文 ${quotedPushes.length} 則` : ''];
+      meta.append(` · ${bits.filter(Boolean).join(' · ')}`);
+      card.append(meta);
+      const open = el('a', 'ptt-quote-open', aidOf(url[3], url[4]));
+      open.href = url[0];
+      open.target = '_blank';
+      open.rel = 'noopener noreferrer';
+      open.title = `開啟原文：${url[0]}`;
+      open.addEventListener('click', (e) => e.stopPropagation());   // 只開連結，不要順便展開框
+      summary.append(card, open);
+    } else {
+      summary.append(el('span', 'ptt-quote-verb', label));
+      if (who) summary.append(uidChip(who));
+      summary.append(el('span', 'ptt-quote-lines', `${bodyLines.length || lines.length} 行`));
+    }
+    box.append(summary);
+
+    const body = el('div', 'ptt-quote-body');
+    bodyLines.forEach((ln) => {
+      body.append(...ln);
+      const last = ln.at(-1);
+      if (!isEmbed(last) && !last.textContent.endsWith('\n')) body.append('\n');
+    });
+    box.append(body);
+    if (quotedPushes.length) {
+      const sub = el('details', 'ptt-quote-pushes');
+      sub.append(el('summary', 'ptt-quote-pushes-head', `原文推文 ${quotedPushes.length} 則`));
+      sub.append(...quotedPushes);
+      box.append(sub);
+    }
+    // 標頭、文末、轉成推文的原始行，以及行與行之間的換行：沒被搬進框裡的都丟掉
+    run.forEach((n) => { if (n.parentNode === main) n.remove(); });
+    return box;
+  };
 
   // ───────────── 正文裡貼上的推文 ─────────────
   //
@@ -356,6 +491,27 @@
     return out;
   };
 
+  // 依 PUSH_LINE 的比對結果，用一行的節點組出跟 PTT 同結構的 .push（內容裡的連結保留成 <a>）
+  const pushFromLine = (nodes, m) => {
+    const [cStart, cEnd] = m.indices[3];
+    const push = el('div', 'push');
+    push.append(
+      el('span', `${m[1] === '推' ? '' : 'f1 '}hl push-tag`, `${m[1]} `),
+      el('span', 'f3 hl push-userid', m[2]),
+    );
+    const content = el('span', 'f3 push-content', ': ');
+    content.append(...sliceNodes(nodes, cStart, cEnd));
+    push.append(content, el('span', 'push-ipdatetime', ` ${(m[4] || '')}${m[5]}`));
+    return push;
+  };
+  const markBodyPush = (p, ...extra) => {
+    p.classList.add('ptt-body-push', ...extra);
+    const uid = p.querySelector('.push-userid')?.textContent.trim();
+    if (uid) { p.dataset.uid = uid; p.style.setProperty('--uid-hue', hueOf(uid)); }
+    const tag = p.querySelector('.push-tag')?.textContent.trim();
+    p.classList.add(tag === '推' ? 'push-up' : tag === '噓' ? 'push-down' : 'push-arrow');
+  };
+
   if (lastFrom) {
     // 先把正文的文字節點在每個換行處切開，讓「一行」可以由幾個節點組成（文字 + 連結 + 文字）
     for (let n = main.firstChild; n && n !== lastFrom; n = n.nextSibling) {
@@ -372,15 +528,7 @@
       const text = nodes.map((n) => n.textContent).join('').replace(/\n$/, '');
       const m = text.match(PUSH_LINE);
       if (!m) return;
-      const [cStart, cEnd] = m.indices[3];
-      const push = el('div', 'push');
-      push.append(
-        el('span', `${m[1] === '推' ? '' : 'f1 '}hl push-tag`, `${m[1]} `),
-        el('span', 'f3 hl push-userid', m[2]),
-      );
-      const content = el('span', 'f3 push-content', ': ');
-      content.append(...sliceNodes(nodes, cStart, cEnd));
-      push.append(content, el('span', 'push-ipdatetime', ` ${(m[4] || '')}${m[5]}`));
+      const push = pushFromLine(nodes, m);
       main.insertBefore(push, nodes[0]);
       nodes.forEach((n) => { if (n.parentNode === main) n.remove(); });
     };
@@ -414,13 +562,7 @@
       box.append(el('div', 'ptt-pushquote-head', `引用的推文 · ${pushes.length} 則`));
       main.insertBefore(box, run[0]);
       box.append(...run);
-      pushes.forEach((p) => {
-        p.classList.add('ptt-body-push');
-        const uid = p.querySelector('.push-userid')?.textContent.trim();
-        if (uid) { p.dataset.uid = uid; p.style.setProperty('--uid-hue', hueOf(uid)); }
-        const tag = p.querySelector('.push-tag')?.textContent.trim();
-        p.classList.add(tag === '推' ? 'push-up' : tag === '噓' ? 'push-down' : 'push-arrow');
-      });
+      pushes.forEach((p) => markBodyPush(p));
       const next = box.nextSibling;
       if (next?.nodeType === 3) next.textContent = next.textContent.replace(/^\n/, '');
     }
@@ -458,27 +600,11 @@
         break;
       }
 
-      const lines = run.filter((k) => isQuoteLine(k) || isBareColon(k)).length;
-      const box = el('details', 'ptt-quote');
-      box.open = lines <= QUOTE_OPEN_MAX_LINES;
-      if (quotedId) box.style.setProperty('--uid-hue', hueOf(quotedId));
-      const summary = el('summary', 'ptt-quote-head');
-      summary.append(el('span', 'ptt-quote-verb', head || blocks === 0 ? '引述' : '引述（續）'));
-      if (quotedId) summary.append(uidChip(quotedId));
-      summary.append(el('span', 'ptt-quote-lines', `${lines} 行`));
-      box.append(summary);
-
-      // 每行去掉一層「: 」；還剩「:」開頭的是引述中的引述，標成較淡的顏色
-      run.forEach((k) => {
-        if (isBareColon(k)) { k.textContent = k.textContent.replace(/^:[ \t]*/, ''); return; }
-        if (!isQuoteLine(k)) return;
-        k.textContent = k.textContent.replace(/^: ?/, '');
-        if (k.textContent.startsWith(':')) k.classList.add('ptt-quote-nested');
-      });
-      const body = el('div', 'ptt-quote-body');
-      main.insertBefore(box, head || run[0]);
-      body.append(...run);
-      box.append(body);
+      // 先放佔位節點：引述開頭可能是原文標頭，建框時會被拿掉，不能拿它當插入位置
+      const slot = document.createTextNode('');
+      main.insertBefore(slot, head || run[0]);
+      const box = buildQuote(run, { quotedId, label: head || blocks === 0 ? '引述' : '引述（續）' });
+      main.replaceChild(box, slot);
       head?.remove();
       skipped.forEach((s) => s.remove());
 

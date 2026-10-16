@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           PTT 閱讀改版
 @namespace      ptt-reader-theme
-@version        1.8.2
+@version        1.9.0
 @homepageURL    https://github.com/turtle11311/web-userstyle
 @supportURL     https://github.com/turtle11311/web-userstyle/issues
 @updateURL      https://raw.githubusercontent.com/turtle11311/web-userstyle/main/ptt/ptt-reader-theme.user.css
@@ -857,6 +857,68 @@
   html body .ptt-quote-body .f6 { color: inherit; }
   html body .ptt-quote-body a .f6 { color: var(--accent); }
   html body .ptt-quote-body .ptt-quote-nested { color: var(--muted); }
+
+  /* 整篇引述：收合列本身就是預覽卡片。
+     點卡片（左邊箭頭、標題 hover 變色）展開；點右邊的文章代碼膠囊開原文，兩個點擊區看起來就不一樣 */
+  html body .ptt-quote-head.is-card {
+    align-items: center;
+    gap: .7em;
+    padding: .35em 0;
+    font-size: .85em;
+  }
+  html body .ptt-quote-card { display: flex; flex: 1; flex-direction: column; min-width: 0; }
+  html body .ptt-quote-title {
+    overflow: hidden;
+    color: var(--text);
+    font-size: 1.12em;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition: color .15s;
+  }
+  html body .ptt-quote-head.is-card:hover .ptt-quote-title { color: var(--accent); }
+  html body .ptt-quote-meta { color: var(--muted); font-size: .88em; }
+  html body #main-content a.ptt-quote-open:link,
+  html body #main-content a.ptt-quote-open:visited {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: .3em;
+    padding: .2em .75em;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    color: var(--accent);
+    box-shadow: none;
+    font-size: .9em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color .15s, background-color .15s;
+  }
+  html body #main-content a.ptt-quote-open::after { content: "↗"; }
+  html body #main-content a.ptt-quote-open:hover {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    box-shadow: none;
+  }
+
+  /* 原文推文：引述框裡的第二層收合，推文表格但不編樓層 */
+  html body .ptt-quote-pushes { margin-top: .5em; padding-top: .3em; border-top: 1px dashed var(--border); }
+  html body .ptt-quote-pushes-head {
+    padding: .2em 0;
+    color: var(--muted);
+    font-size: .78em;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+  }
+  html body .ptt-quote-pushes-head::-webkit-details-marker { display: none; }
+  html body .ptt-quote-pushes-head::before { content: "▸ "; display: inline-block; transition: transform .15s; }
+  html body .ptt-quote-pushes[open] > .ptt-quote-pushes-head::before { transform: rotate(90deg); }
+  html body .ptt-quote-pushes-head:hover { color: var(--text); }
+  html body .ptt-quote-pushes .push { margin: 0; padding: .2em 0; font-size: .82em; }
+  html body .ptt-quote-pushes-head + .push { border-top: none; }
 
   /* 正文裡貼上的推文（userscript 包成 .ptt-pushquote）：跟引述框同一種「退到後面」的底色，
      保留推文表格排版但不編樓層，第一則不需要上分隔線 */
